@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+    <h:body>
+        <h:outputStylesheet library="css" name="StyleLogin.css"/>
+        <f:loadBundle basename="ApplicationMessages" var="msj" />
+        <p:ajaxStatus onstart="statusDialog.show();"  oncomplete="statusDialog.hide();" >
+        </p:ajaxStatus>
+        <p:dialog modal="true" widgetVar="statusDialog" resizable="false" header=""   
+                  draggable="false" closable="false">  
+            <h:graphicImage library="img"  name="azteca.gif"/>
+        </p:dialog>
+        <h:form >
+            <div class="contenedorcentrar">
+                <div class="contenidoLogin">
+                    <div id="contenidoInterno">
+
+                        <div class="ContenedorlogoSC">
+                            <div class="logo"></div>
+                        </div>
+
+                        <div class="textocaptura">
+                            <h1>Recuperar Contraseña</h1>
+                            <p:messages id="info" showDetail="true" severity="info" />
+                            <p:messages id="warning" showDetail="true" severity="warn" />
+                        </div>
+
+                        <div class="maincontent">
+                            <div class="loginform">
+                                <div id="form1">
+                                    <div id="formformat">
+                                        <label>Nombre de Usuario:</label>
+                                        <p:inputText  id="usuario"  maxlength="40" required="true" value="#{recuperarController.user}"/>
+                                        <p:message for="usuario"/>
+                                    </div>
+                                </div>
+
+                                <div id="form2">
+                                    <div id="formformat">
+                                        <label>Correo</label>
+                                        <p:inputText id="correo"  maxlength="40" required="true" value="#{recuperarController.correo}"/>
+                                        <p:message for="correo"/>
+                                    </div>
+                                </div>
+
+                                <div id="button">
+                                    <div id="formformat">
+                                        <p:commandButton   styleClass="btns" value="#{msgs.recuperar_contrasena}"  update="@form"  action="#{recuperarController.recuperaContrasena()}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="Contentllavemaestrainfo">
+                            <div class="infollave">
+                                <center>
+                                    <p:commandButton  value="#{msgs.login_regreso}" styleClass="btns2" action="index" immediate="true"/>
+                                </center>
+                                <br/>
+                                <p:commandLink rendered="false" id="cuenta-alumno" action="cuenta-alumno"  immediate="true" style="margin-right:20px;" ajax="false">
+                                    <h:outputText value="Crea tu cuenta" /> 
+                                </p:commandLink>  
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="logoAzteca"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+        
+    </h:body>
+</html>

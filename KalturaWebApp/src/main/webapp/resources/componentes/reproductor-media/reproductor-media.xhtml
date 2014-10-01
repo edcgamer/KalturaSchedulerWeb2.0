@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:cc="http://java.sun.com/jsf/composite"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <!-- INTERFACE -->
+    <cc:interface displayName="reproductor" >
+        <cc:attribute name="tipo" required="true"/>
+        <cc:attribute name="ruta" required="true"/>
+        <cc:attribute name="referncia" required="true"/>
+       
+
+    </cc:interface> <!-- IMPLEMENTATION -->
+    <cc:implementation>
+
+        <f:loadBundle basename="ApplicationMessages" var="msj" />  
+        #{(repositorioController.tipoReferencia(cc.attrs.referncia))}
+        <p:media value="#{cc.attrs.ruta}" width="100%" height="300px" rendered="#{repositorioController.renderedReference(cc.attrs.referncia) and (not repositorioController.tipoReferencia(cc.attrs.referncia))}"/>
+        <h:graphicImage library="data" name="#{cc.attrs.ruta}" rendered="#{repositorioController.renderedReference(cc.attrs.referncia) and (repositorioController.tipoReferencia(cc.attrs.referncia)) }"/>
+        <p:commandButton value="idPDF" actionListener="#{repositorioController.mostrarPdf(cc.attrs.referncia)}" update="@form" />
+    </cc:implementation>
+
+</html>

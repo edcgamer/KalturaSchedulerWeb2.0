@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view locale="es">
+        <h:head>
+            <h:outputStylesheet library="css" name="estilos.css"/>
+            <f:loadBundle basename="ApplicationMessages" var="msj" />
+            <p:ajaxStatus onstart="statusDialog.show();"  oncomplete="statusDialog.hide();" >
+            </p:ajaxStatus>
+            <p:dialog modal="true"  widgetVar="statusDialog" resizable="false" header=""   
+                      draggable="false" closable="false">  
+                <h:graphicImage library="img"  name="Loader_SCWEB.gif"/>
+            </p:dialog>
+        </h:head>
+        <body>
+
+            <div id="contenedorGeneral"><!--Inicia contenedor general-->
+                <div id="contenedorPrincipal"><!--Inicia contenedor principal-->
+                    <div id="contenido" >
+                        <div id="header">
+                            <div id="header">
+                                <div class="logoSC">
+                                    <p:graphicImage style="width: 121;height: 41" library="img"  name="iconosHome/SCweb_logo.png" />
+                                </div>
+                                <div class="logoAzteca">
+                                    <p:graphicImage style="width: 160;height: 40" library="img"  name="iconosHome/logoAzteca.png"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="contenido_ch"><!--inicia contenido_ch-->
+
+                            <div id="Usuario"><!--inicia Usuario-->
+                                <center>
+                                    <h:form>
+                                        <div id="content_user_mofulos">
+                                            <p:panelGrid >
+                                                <p:row>
+                                                    <p:column>
+                                                        <h:commandLink immediate="true"  action="factura">
+                                                            <p:graphicImage library="img"  name="factura.png" />
+                                                        </h:commandLink>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <h:commandLink immediate="true" action="home">
+                                                            <p:graphicImage library="img"  name="reporte.jpg" />
+                                                        </h:commandLink>
+                                                    </p:column> 
+                                                    <p:column>
+                                                        <h:commandLink immediate="true" action="comscore">
+                                                            <p:graphicImage library="img"  name="website-traffic.png" />
+                                                        </h:commandLink>
+                                                    </p:column>   
+                                                </p:row>
+                                            </p:panelGrid>
+                                        </div>
+                                    </h:form>
+                                </center>
+                                <div class="etiquetaUsuario" id="contenedornombreusuario">
+                                    <p:outputLabel  styleClass="etiquetaUsuario" value="#{appCredentials.usuarioReal.nombre}"/>
+                                </div>
+                                <div id="content_user_btn">
+
+                                    <div id="botonescontenedor">
+                                        <div class="contentbtn_left" >
+                                            <h:form id="usuario">
+
+                                                <p:commandButton id="pwchange" value="Cambiar pw" styleClass="btns"/>
+                                                <br/>
+                                                <p:overlayPanel id="imgPanel2" for="pwchange" showEffect="blind" hideEffect="blind"
+                                                                showEvent="mousedown" hideEvent="mousedown"  
+                                                                styleClass="fondorestaurar">
+
+                                                    <p:panelGrid  id="panelPassword" columns="3" style="clear: both; width: 250px;  font-size: 0.75em;">
+                                                        <div >Cambiar Contraseña</div>
+                                                        <p:password id="password_registro2" style="height: 10px;"  maxlength="30" required="true" feedback="true" inline="true" weakLabel="debil" goodLabel="buena" strongLabel="fuerte" promptLabel="muy debil" match="passwordConfirm2" validatorMessage="No coinciden" value="#{kalturaController.contrasena}"/>
+                                                        <p:message for="password_registro2"/>
+                                                        <div >#{msg_usuario.confirmar_pass}</div>
+                                                        <p:password id="passwordConfirm2" style="height: 10px;" maxlength="30" required="true" feedback="true" inline="true" weakLabel="debil" goodLabel="buena" strongLabel="fuerte" promptLabel="muy debil"/>
+                                                        <p:message for="passwordConfirm2"/>
+                                                        <f:facet name="footer">
+                                                            <p:commandButton value="Cambiar PW" style="height: 22px;" actionListener="#{kalturaController.cambiaContrasena(appCredentials.usuarioReal.username)}" update=":usuario:panelPassword"  />
+                                                        </f:facet>
+                                                    </p:panelGrid>
+                                                </p:overlayPanel>
+                                            </h:form>
+                                        </div>
+                                        <div class="contentbtn_right">
+                                            <h:form id="logout">
+                                                <p:commandButton value="Logout" action="#{loginController.logout()}" styleClass="btns" ajax="false" />
+                                            </h:form>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div><!--termina Usuario-->
+                            <h:form id="KalturaFiltros">
+                                <div id="infoleft"><!--inicia infolefth-->
+
+                                    <div class="headerBlue"><!--inicia headerblue-->
+                                        <h1>Filtros de Reportes</h1>
+                                    </div><!--termina headerblue-->
+
+                                    <div id="contentinfo"><!--inicia contentinfo-->
+
+                                        <div id="formularios"><!--inicia contenedor formularios-->
+                                            <div class="contenedor-fechas">
+                                                <div class="form1">
+                                                    <label>Fecha inicio de reporte</label>
+                                                    <p:calendar id="c1"  value="#{comscoreController.fechaInicioView}"  readonlyInput="true" maxdate="#{comscoreController.hoy}" size="10" >
+                                                        <p:ajax event="dateSelect"  update=":KalturaFiltros:c1 :KalturaFiltros:inicioAlert" listener="#{comscoreController.verificaFechaMenor()}"/>
+                                                    </p:calendar>
+                                                    <p:messages id="inicioAlert"  showDetail="true"  severity="warn" closable="true"/>
+                                                </div> 
+                                                <div class="form2">
+                                                    <label>Fecha final de reporte</label>
+                                                    <p:calendar id="c2" value="#{comscoreController.fechaFinalView}" readonlyInput="true" maxdate="#{comscoreController.hoy}" size="10">
+                                                        <p:ajax event="dateSelect"  update=":KalturaFiltros:c2 :KalturaFiltros:finalAlert" listener="#{comscoreController.verificaFechaMayor()}"/>
+                                                    </p:calendar>
+                                                    <p:messages id="finalAlert" showDetail="true"  severity="warn" closable="true"/>
+                                                </div> 
+                                            </div>
+                                            <div class="contenedor-unitario">
+                                                <div class="form5">
+                                                    <div class="form8">
+                                                        Ultimo update :#{comscoreController.ultimaFechaConsumida}
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div id="contenidoBotonera"><!--Inicia Botonera-->
+                                            <div id="botonescontenedor">
+                                                <div class="contentbtn_left" >
+                                                    <p:commandButton  styleClass="btns" value="Aplicar filtros"  update=":KalturaFiltros :ComscoreTablas" actionListener="#{comscoreController.botonFiltrosAction()}"/>
+                                                </div>
+                                                <div class="contentbtn_right"> 
+                                                    <p:commandButton styleClass="btns" value="Limpiar Filtros" actionListener="#{comscoreController.init()}" update=":KalturaFiltros :ComscoreTablas"/>
+                                                </div>
+                                            </div>    
+                                        </div><!--Termina Botonera-->
+                                        </div><!--termina contenedor formularios-->
+
+
+                                        
+                                    </div><!--termina contentinfo-->
+                                </div><!--termina infoleft-->
+                            </h:form>
+
+                            <h:form id="ComscoreTablas">
+                                <div id="seccion_dos"><!--INICIA SECCION DOS-->
+
+                                    <div class="headerBlue"><!--inicia headerblue de la seguna seccion-->
+                                        <h1>Reportes Comscore</h1>
+                                    </div><!--termina headerblue de la segunda seccion-->
+
+                                    <div class="bargray"><!--Inicia Barra Gris-->
+                                        <div id="titleleft"><h2>Configuración</h2></div>
+                                        <div id="titleright"><h2>Vista</h2></div>
+                                    </div><!--Termina barra gri-->
+
+                                    <div id="content_seccion_dos"><!--Inicia content_Seccion_dos-->
+
+                                        <div id="left_seccion_dos"> 
+
+                                            <div id="content_form_dos_A">
+                                                <div id="form_only">
+                                                    <label>Sitios</label>
+                                                    <p:selectOneMenu  styleClass="styleselect" style="width: 200px" rendered="#{comscoreController.listaSitios.size()>0}" tabindex="0" value="#{comscoreController.sitioSeleccionado}"  filter="true" filterMatchMode="startsWith">
+                                                        <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{comscoreController.listaSitios}"
+                                                                       var="_sitios" 
+                                                                       itemLabel="#{_sitios.nombre}" 
+                                                                       itemValue="#{_sitios.nombre}"/>   
+                                                        <p:ajax  update=":ComscoreTablas" listener="#{comscoreController.seleccionSitio()}"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div id="content_form_dos_A">
+                                                <div id="form_only">
+                                                    <label>Fabricas</label>
+                                                    <p:selectOneMenu styleClass="styleselect" style="width: 200px"  rendered="#{comscoreController.listaFabricas.size()>0}" value="#{comscoreController.fabricaSeleccionada}"  filter="true" filterMatchMode="startsWith">
+                                                        <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{comscoreController.listaFabricas}"
+                                                                       var="_fabricas" 
+                                                                       itemLabel="#{_fabricas.nombre}" 
+                                                                       itemValue="#{_fabricas.nombre}"/>   
+                                                        <p:ajax  update=":ComscoreTablas" listener="#{comscoreController.seleccionFabrica()}"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>                                          
+                                        </div>
+
+                                        <div id="right_seccion_dos"><!--Inicia right_Seccion_dos-->
+                                            <div id="contenticons"> 
+                                                
+                                                <div class="Icons">
+                                                    <h:commandLink immediate="true"   actionListener="#{comscoreController.activaGrafica()}">
+                                                        <p:ajax update=":ComscoreTablas" />
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosHome/icons-graficas.png" rendered="#{not comscoreController.graficaActiva }"/>
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosHome/icons-graficas2.png" rendered="#{comscoreController.graficaActiva }"/>
+                                                    </h:commandLink>
+
+                                                </div>
+                                                <div class="Icons">
+                                                    <h:commandLink immediate="true"  actionListener="#{comscoreController.activaTablas()}">
+                                                        <p:ajax update=":ComscoreTablas" />
+                                                        <p:graphicImage width="32" height="31"  library="img"  name="iconosHome/icons_tablas2.png" rendered="#{not comscoreController.graficaActiva }" />
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosHome/icons-Tablas.png"  rendered="#{ comscoreController.graficaActiva }"/>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+
+                                            <div id="ContenedorInformacion">
+                                                
+                                                <p:tabView id="tabReportes" style="width: 100%;font-size: 12px" rendered="#{not comscoreController.graficaActiva and comscoreController.reporteGranuladoGlobal.tabla.size()>0}">
+                                                    <p:tab id="reporteGloblaltab" title="Reporte Globlal" rendered="#{comscoreController.reporteGranuladoGlobal.tabla.size()>0 and not comscoreController.graficaActiva}" >
+                                                        <p:panelGrid  style="font-size: 12px" rendered="#{comscoreController.reporteGranuladoGlobal.tabla.size()>0}">
+                                                            <f:facet name="header"> 
+                                                                <p:row>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Total de tamaño"/>
+                                                                        <br/>
+                                                                        <h:outputText value="(GB)" />
+                                                                    </p:column>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Total de Trafico"/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </f:facet>
+                                                            <p:row>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="#{comscoreController.reporteGlobalTotal.tamanioStr}"/>
+                                                                </p:column>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="#{comscoreController.reporteGlobalTotal.minVistosStr} "/>
+                                                                </p:column>
+                                                            </p:row>
+                                                        </p:panelGrid>
+                                                        <div style="overflow:auto;  ">
+                                                            
+                                                            <p:dataTable   style="width: 100%;font-size: 12px" id="tablatotalesGeneralCuenta" value="#{comscoreController.reporteGranuladoGlobal.tabla}" rows="10" var="_reporteGlobal" rendered="#{comscoreController.reporteGranuladoGlobal.tabla.size()>0 }"
+                                                                           paginator="true"
+                                                                           paginatorPosition="bottom" >
+                                                                <p:column headerText="Nombre" sortBy="#{_reporteGlobal.nombre}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Nombre" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.nombre}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Storage"  style="text-align: right" sortBy="#{_reporteGlobal.tamanio}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Storage (GB)" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.tamanioStr}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Trafico" style="text-align: right" sortBy="#{_reporteGlobal.minVistos}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Trafico" />
+
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.minVistosStr}"/>
+                                                                </p:column>
+                                                            </p:dataTable>
+                                                        </div>
+                                                        <center>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{comscoreController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralCuenta" fileName="ReporteGlobalTrafico" />
+                                                            </h:commandLink>
+                                                            <br/>
+                                                            <br/>
+                                                            <br/>
+                                                            <br/>
+                                                            <br/>
+                                                        </center>
+                                                    </p:tab>
+                                                    <p:tab id="reporteCuentatab" title="Reporte Sitio" rendered="#{comscoreController.reporteGranuladositio.tabla.size()>0}">
+                                                        <center>
+                                                            <p:panelGrid style="width: 100%;font-size: 12px" rendered="#{comscoreController.reporteGranuladositio.tabla.size()>0}">
+                                                                <f:facet name="header"> 
+                                                                    <p:row>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(GB)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de Trafico"/>
+                                                                        </p:column>
+                                                                    </p:row>
+                                                                </f:facet>
+                                                                <p:row>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{comscoreController.reporteSitioTotal.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{comscoreController.reporteSitioTotal.minVistosStr}"/>
+                                                                    </p:column>
+                                                                   
+                                                                </p:row>
+                                                            </p:panelGrid>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneral" value="#{comscoreController.reporteGranuladositio.tabla}" rows="5" var="_reporteSitio" rendered="#{comscoreController.reporteGranuladositio.tabla.size()>0 }"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                    <p:column headerText="Nombre" sortBy="#{_reporteSitio.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Nombre" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteSitio.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Storage" style="text-align: right" sortBy="#{_reporteSitio.tamanio}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage(GB)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteSitio.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Trafico"  style="text-align: right" sortBy="#{_reporteSitio.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Trafico" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteSitio.minVistosStr}"/>
+                                                                    </p:column>
+                                                                </p:dataTable>
+                                                            </div>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{comscoreController.postProcessXLS}"
+                                                                                target="tablatotalesGeneral" fileName="ReporteSitioTrafico_#{comscoreController.sitioSeleccionado}" />
+                                                            </h:commandLink>
+                                                            
+                                                           
+                                                        </center>
+                                                    </p:tab>
+                                                    <p:tab id="reporteFabtab"  title="Reporte Unidad" rendered="#{comscoreController.reporteGranuladoGFabrica.tabla.size()>0}">
+                                                        <center>
+                                                            <p:panelGrid style="width: 100%;font-size: 12px" rendered="#{comscoreController.reporteGranuladoGFabrica.tabla.size()>0}">
+                                                                <f:facet name="header"> 
+                                                                    <p:row>
+                                                                       <p:column >
+                                                                            <p:outputLabel value="Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(GB)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de Trafico"/>
+                                                                        </p:column>
+                                                                    </p:row>
+                                                                </f:facet>
+                                                                <p:row>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{comscoreController.reporteFabricaTotal.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{comscoreController.reporteFabricaTotal.minVistosStr} "/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </p:panelGrid>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneralUnidad" value="#{comscoreController.reporteGranuladoGFabrica.tabla}" rows="5" var="_reporteFabrica" rendered="#{comscoreController.reporteGranuladoGFabrica.tabla.size()>0 }"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                    <p:column headerText="Nombre" sortBy="#{_reporteFabrica.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Nombre" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Storage" style="text-align: right" sortBy="#{_reporteFabrica.tamanio}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage(GB)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Trafico" style="text-align: right" sortBy="#{_reporteFabrica.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Trafico" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.minVistosStr}"/>
+                                                                    </p:column>
+                                                                </p:dataTable>
+                                                            </div>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{comscoreController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralUnidad" fileName="ReporteFabricaTrafico_#{comscoreController.fabricaSeleccionada}" />
+                                                            </h:commandLink>
+                                                            <br/>
+                                                            <br/>
+                                                        </center>
+                                                    </p:tab>
+                                                </p:tabView>
+                                                
+                                                
+                                                
+                                                <p:lineChart style="height: 600px" value="#{comscoreController.reporteGranuladoGlobal.graficaStorage}" title="Storage Global(GB)" xaxisAngle="45" rendered="#{comscoreController.reporteGranuladoGlobal.tabla.size()>0 and comscoreController.graficaActiva }"/>
+                                                <p:lineChart style="height: 600px" value="#{comscoreController.reporteGranuladoGlobal.graficaTiempoVisto}" title="Trafico globlal" xaxisAngle="45" rendered="#{comscoreController.reporteGranuladoGlobal.tabla.size()>0 and comscoreController.graficaActiva }"/>
+                                                <p:lineChart style="height: 600px" value="#{comscoreController.reporteGranuladositio.graficaStorage}" title="Storage sitio_#{comscoreController.sitioSeleccionado}(GB)" xaxisAngle="45" rendered="#{comscoreController.reporteGranuladositio.tabla.size()>0 and comscoreController.graficaActiva }"/>
+                                                <p:lineChart style="height: 600px" value="#{comscoreController.reporteGranuladositio.graficaTiempoVisto}" title="Trafico sitio_#{comscoreController.sitioSeleccionado}" xaxisAngle="45" rendered="#{comscoreController.reporteGranuladositio.tabla.size()>0 and comscoreController.graficaActiva }"/>
+                                                <p:lineChart style="height: 600px" value="#{comscoreController.reporteGranuladoGFabrica.graficaStorage}" title="Storage sitio_#{comscoreController.fabricaSeleccionada}" xaxisAngle="45" rendered="#{comscoreController.reporteGranuladoGFabrica.tabla.size()>0 and comscoreController.graficaActiva and false}"/>
+                                                <p:lineChart style="height: 600px" value="#{comscoreController.reporteGranuladoGFabrica.graficaTiempoVisto}" title="Trafico sitio_#{comscoreController.fabricaSeleccionada}(GB)" xaxisAngle="45" rendered="#{comscoreController.reporteGranuladoGFabrica.tabla.size()>0 and comscoreController.graficaActiva and false}"/>
+                                               
+                                            </div>
+                                        </div><!--termina right_Seccion_dos-->
+
+
+                                    </div><!--Inicia content_Seccion_dos-->
+                                </div>
+
+                            </h:form>
+
+                        </div>
+                    </div> <!--Inicia contenedor principal-->   
+                </div><!--termina contenedor general-->  
+            </div><!--termina contenedor general-->  
+        </body>
+    </f:view>
+</html>
+

@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!-- =========== FULL CONFIGURATION FILE ================================== -->
+
+<faces-config version="2.0"
+              xmlns="http://java.sun.com/xml/ns/javaee" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
+        
+    <application>
+        <variable-resolver>
+            org.springframework.web.jsf.DelegatingVariableResolver
+        </variable-resolver>
+        <resource-bundle>
+            <base-name>ApplicationMessages</base-name>
+            <var>msgs</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>/helps/recuperar</base-name>
+            <var>hrc</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>Enums</base-name>
+            <var>enums</var>
+        </resource-bundle>
+        <message-bundle>Messages</message-bundle>
+            
+        <locale-config>
+            <default-locale>es</default-locale>
+            <supported-locale>en</supported-locale>
+        </locale-config>
+    </application>
+          
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>login</from-outcome>
+            <to-view-id>/login.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>cuenta-alumno</from-outcome>
+            <to-view-id>/cuenta-alumno/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>home</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>recuperacion</from-outcome>
+            <to-view-id>/recupera-pw/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>repositorio</from-outcome>
+            <to-view-id>/repositorio/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>factura</from-outcome>
+            <to-view-id>/factura/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>comscore</from-outcome>
+            <to-view-id>/comscore/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <navigation-case>
+            <from-outcome>objetoAprendizaje</from-outcome>
+            <to-view-id>/objeto-aprendizaje/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        
+        <!-- Reglas de navegación para el módulo de gráficas-->
+        <navigation-case>
+            <from-outcome>index</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+                
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/error.xhtml</to-view-id>            
+        </navigation-case>       
+    </navigation-rule>
+    
+    <navigation-rule>
+       
+       
+    </navigation-rule>
+
+    <converter>
+        <converter-class>mx.com.dsa.perfil.PerfilesConverter</converter-class>
+        <converter-id>perfilesConverter</converter-id>
+    </converter>
+    
+    <converter>
+        <converter-for-class>java.lang.Enum</converter-for-class>
+        <converter-class>javax.faces.convert.EnumConverter</converter-class>
+    </converter>
+    
+    
+    <!-- Manejador de Excepciones-->
+    <factory>
+        <exception-handler-factory>
+            com.marcosanta.util.CustomExceptionHandlerFactory
+        </exception-handler-factory>                          
+    </factory>
+</faces-config>

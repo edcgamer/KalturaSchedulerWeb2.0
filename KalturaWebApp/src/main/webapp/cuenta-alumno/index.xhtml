@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+
+    </h:head>
+    <body>
+
+
+        <h:form id="creaUsuario">
+            <p:panelGrid>
+                <p:row>
+                    <p:column colspan="3">
+                        <p:messages  severity="warning" id="idError" closable="true" showDetail="true" />
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="nombre" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText validator="alfabeticvalidator" id="nombre" value="#{cuentaAlumno.nombre}" required="true"/> 
+                    </p:column>
+                    <p:column>
+                        <p:message for="nombre"/> 
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="username"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputText validator="alphaNumericValidator" id="username" value="#{cuentaAlumno.username}" required="true"/>
+                    </p:column>
+                    <p:column>
+                        <p:message for="username"/> 
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="correo" />
+                    </p:column>
+                    <p:column>
+                        <p:inputText validator="emailValidator" id="alumno" value="#{cuentaAlumno.correo}" required="true"/>
+                    </p:column>
+                    <p:column>
+                        <p:message for="alumno"/> 
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="contraseña"/>
+                    </p:column>
+                    <p:column>
+                        <p:password id="pw" value="#{cuentaAlumno.pw}" required="true"/>
+                    </p:column>
+                    <p:column>
+                        <p:message for="pw"/> 
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <p:outputLabel value="contraseña"/>
+                    </p:column>
+                    <p:column>
+                        <p:password id="pw2" value="#{cuentaAlumno.rePw}" required="true"/>
+                    </p:column>
+                    <p:column>
+                        <p:message for="pw2"/> 
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="3">
+                        <p:commandButton value="probar" actionListener="#{cuentaAlumno.test()}" update="@form"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </body>
+</html>
+

@@ -1,0 +1,193 @@
+@charset "UTF-8";
+/* CSS Document */
+body{
+	margin: 0 auto;
+	background: #f3f4f2; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f3f4f2 0%, #ffffff 66%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f4f2), color-stop(66%,#ffffff)); /* Chrome,Safari4+ */	
+	background: -webkit-linear-gradient(top,  #f3f4f2 0%,#ffffff 66%); /* Chrome10+,Safari5.1+ */	
+	background: -o-linear-gradient(top,  #f3f4f2 0%,#ffffff 66%); /* Opera 11.10+ */	
+	background: -ms-linear-gradient(top,  #f3f4f2 0%,#ffffff 66%); /* IE10+ */	
+	background: linear-gradient(to bottom,  #f3f4f2 0%,#ffffff 66%); /* W3C */	
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f4f2', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */	
+}
+.contenedorcentrar{
+	margin:0 auto;
+	width:1024px;	
+}
+.contenidoLogin{
+	width: 1024px;
+	height: 768px;
+	margin: auto;
+	overflow: hidden;
+	position: absolute;
+}
+#contenidoInterno{
+	width: 778px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	height: auto;
+	margin-top: -300px;
+	margin-left: -389px;
+}
+.ContenedorlogoSC{
+	width:100%;
+	height:128px;
+	float:left;
+	text-align:center;
+}
+.logo{
+	width:411px;
+	height:128px;
+	margin:auto;
+	background-image:url('../resources/img/iconosHome/logoSC.png');
+}
+.textocaptura{
+	margin-top:20px;
+	width:100%;
+	height:auto;
+	text-align:center;
+	float:left;
+}
+
+
+h1{
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:16px;
+	font-weight:normal;
+	color:#808285;
+	text-align:center;
+}
+.maincontent{
+	width:100%;
+	height:175px;
+	background-image:url('../resources/img/iconosHome/backmainlogin.png');
+	float:left;	
+}
+.loginform{
+	width:90%;
+	height:auto;
+	margin:auto;
+	text-align:center;
+	margin-top:55px;
+}
+#formformat{
+	width:90%;
+	margin:auto;
+}
+
+#form1{
+	width:34%;
+	float:left;
+}
+#form2{
+	width:33%;
+	float:left;
+}
+#button{
+	width:33%;
+	float:left;
+	margin-top:23px;
+}
+label{
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:16px;
+	font-weight:normal;
+	color:#FFFFFF;
+	float:left;
+}
+
+.link{
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:16px;
+	font-weight:normal;
+	color:#B2B2B2;
+}
+
+.error{
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:28px;
+	font-weight:normal;
+	color:#ff0000;
+}
+input{
+	width:100%;
+	height:25px;
+	border-radius:5px;
+	border:1px solid #B2B2B2;
+}
+.btns{
+	width:100%;
+	height:25px;
+	border-radius:5px;
+	background-color:#FBB03B;
+	border:1px solid #C1272D;
+	color:#000000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	background: -moz-linear-gradient(top,  #ffff00 0%, #fbb03b 35%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffff00), color-stop(35%,#fbb03b)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffff00 0%,#fbb03b 35%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff00', endColorstr='#fbb03b',GradientType=0 ); /* IE6-9 */
+
+}
+
+.btns2{
+	width:50%;
+	height:25px;
+	border-radius:5px;
+	background-color:#FBB03B;
+	border:1px solid #C1272D;
+	color:#000000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	background: -moz-linear-gradient(top,  #ffff00 0%, #fbb03b 35%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffff00), color-stop(35%,#fbb03b)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffff00 0%,#fbb03b 35%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff00', endColorstr='#fbb03b',GradientType=0 ); /* IE6-9 */
+
+}
+
+.btns:hover, .btns:focus, .btns:active {
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0);
+}
+#Contentllavemaestrainfo{
+	width:100%;
+	float:left;
+}
+.infollave{
+	width:65%;
+	margin:auto;
+}
+p{
+	background-image:url('../resources/img/iconosHome/check-11.png');
+	text-indent:20px;
+	background-repeat:no-repeat;
+	text-align:left;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	color:#808285;
+}
+.footer{
+	margin-top:50px;
+	width:100%;
+	float:left;
+}
+.logoAzteca{
+	width:140px;
+	height:30px;
+	margin:auto;
+	background-image:url('../resources/img/iconosHome/LogoAzteca_login.png');
+	background-repeat:no-repeat;
+	text-align:center;
+}

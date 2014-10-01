@@ -1,0 +1,580 @@
+/* fix footer */
+
+html, body, #wrap {height: 88%;}
+
+body > #wrap {height: auto; min-height: 100%;}
+
+#main {padding-bottom: 43px;}
+
+.clearfix:after {content: ".";
+                 display: block;
+                 height: 0;
+                 clear: both;
+                 visibility: hidden;}
+.clearfix {display: inline-block;}
+
+* html .clearfix { height: 1%;}
+.clearfix {display: block;}
+
+/* estilos default */
+
+body {
+    background-color: #ffffff;
+    font-size: 0.8em;
+    font-family: "Helvetica CE", sans-serif, "Lucida Grande CE", lucida, Verdana, "Verdana CE", Arial, "Arial CE";
+    color: #000000;
+    margin: 0px;
+}
+.backgrounLogin{
+    background: -webkit-radial-gradient( #006bb6 10%, #002d52 80%); 
+    background: -o-radial-gradient( #006bb6 10%, #002d52 80%);
+    background: -moz-radial-gradient( #006bb6 10%, #002d52 80%); 
+    background: radial-gradient( #006bb6 10%, #002d52 80%);
+    background-color: #005d85;
+}
+
+h1 {
+    font-family: "Helvetica CE", sans-serif, "Lucida Grande CE", lucida, Verdana, "Verdana CE", Arial, "Arial CE";
+    font-size: 0.95em;
+    margin: 0px;
+    padding: 0px;
+    color: #012d52;
+}
+
+a:link, a:visited {
+    color: #70b5dd;
+    text-decoration: none;
+    border-style: none;
+    border-width: thin;
+}
+
+a:link:hover, a:visited:hover  {
+    color: #c6c6c6;
+    text-decoration: none;
+    border-style: none;
+    border-width: thin;
+}
+
+a.linkMenuPrincipal:link {
+    color: transparent;
+    text-decoration: none;
+    border-style:none;
+}
+
+a.linkMenuPrincipal:visited {
+    color: transparent;
+    text-decoration: none;
+    border-style:none;
+}
+
+a.linkMenuPrincipal:hover {
+    color: transparent;
+    text-decoration: none;
+    border-style:none;
+}
+
+a.linkMenuPrincipal:visited:hover {
+    color: transparent;
+    text-decoration: none;
+    border-style:none;
+}
+
+.fondoHeaderNormal{
+    height: 60px;
+    background-color: #005d85;
+    min-width: 1310px !important;
+}
+
+.fondoHeaderSinMenu{
+    height: 60px;
+    background-color: #005d85;
+    min-width: 1310px !important;
+}
+
+.imgFondoHeader{
+    height: 60px;
+    background-repeat: repeat-x;
+
+}
+
+.fondoFooterDSA{
+    margin-left: 5%;
+    margin-right: 5%;
+    text-align: center;
+    vertical-align: middle;
+    height: 76px;
+}
+
+.footerDSA{
+    margin-top: -21px;
+}
+
+.footerLogoDSA{
+    position: relative;
+    top: -3px;
+}
+
+.footerLogosRedes{
+    position: relative;
+    top: -3px;
+}
+
+.txtFondoFooterDSA{
+    position: relative;
+    vertical-align: middle;
+    font-size: 0.7em;
+    top: -15px;
+}
+
+.separadorFooter{
+    position: relative;
+    top: 15px;    
+}
+
+a.linkFooter:link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95em;
+}
+
+a.linkFooter:visited {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95em;
+}
+
+a.linkFooter:hover {
+    color: #ffffff;
+    text-decoration: none;
+    font-size:0.95em;
+}
+
+a.linkFooter:visited:hover {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.95em;
+}
+
+a.linkRedes:link {
+    text-decoration: none;
+    border-style: none;
+    border-width: 0;
+}
+
+a.linkRedes:visited {
+    text-decoration: none;
+    border-style: none;
+    border-width: 0;
+}
+
+a.linkRedes:hover {
+    text-decoration: none;
+    border-style: none;
+    border-width: 0;
+}
+
+a.linkRedes:visited:hover {
+    text-decoration: none;
+    border-style: none;
+    border-width: 0;
+}
+
+.logoHeaderDSA{
+    position: relative;
+    margin: 15px 0px 0px 20px;
+    float: left;
+    height: 30px;
+}
+
+.datosUsuario{
+    position: relative;
+    float: right;
+    text-align: left; 
+    color: #ffffff;
+    font-size: .85em;
+}
+
+
+.logoIndexDSA{
+    position: relative;
+    margin: 10% 0% 3% 0%;
+}
+
+.loginGris{
+    background-color: #d9d9d9;
+    border-radius: 9px;
+    margin: 11% 5% 11% 5%;
+    padding: 21px;
+    height: 241px;
+}
+
+.loginLeftSide{
+    float: left;
+    width: 47%;
+}
+
+.loginRightSide{
+    border-color: none;
+    border-style: none;
+    border-width: 0px;
+    border-radius: 9px;
+    padding: 1% 1% 0% 0%;
+    color: white;
+}
+
+.ui-tabs-nav {
+    height: 40px;
+}
+
+.fondoBarraAzulHome{
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+}
+
+.idPDF {  
+/*    height: 25px;    */
+    background-image: url("#{resource['img/delete.png']}") !important;   
+}
+
+.marginTop3{
+    margin-top: 3px;
+}
+.marginTop7{
+    margin-top: 7px;
+}
+
+.marginTop55{
+    margin-top: 21px;
+}
+.marginTop20{
+    margin-top:20px;
+}
+
+.marginBottom55{
+    margin-bottom: 31px;
+}
+.marginBottom15{
+        margin-bottom: 15px;
+}
+
+.bolder{
+    font-weight: bolder;
+}
+
+.blueBolder{
+    font-weight: bolder;
+    color: #70b5dd;
+}
+
+.centrado{
+    text-align: center;
+}
+
+.justificado{
+    text-align: justify;
+}
+
+.botonesGraficas{
+    position: relative;
+    margin-top: 15px;
+}
+
+.smaller{
+    font-size: 95%;
+}
+
+
+.margenIzqRedesFooter{
+    margin-left: 5px;   
+}
+
+.colorBuscador{
+    position: relative;
+    background-color: #e6f3f9  !important; 
+    display: block;
+    height: 47px;
+    min-width: 800px !important;
+    color: #002d52 !important;  
+}
+
+.flotarBusqIzq{
+    float:left;
+    position: relative;
+    margin-right: 1%;
+}
+
+.textoBlanco{
+    color: #ffffff;
+}
+
+.centrarMenu{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ancho90{
+    width: 90%;
+}
+
+.notaTitulo{
+    font-weight: bolder;
+    font-size: 1.05em;
+    font-style: italic;
+    color: #002d52;
+    line-height: 20px;
+}
+.paddingPopPer{
+    padding: 20px 20px 20px 20px;
+
+}
+.notaSitio{
+    font-style: italic;
+    font-weight: bold;
+    color: #002d52;
+    font-size: 1.1em;
+    padding-right: 10px;
+}
+
+.bolderColorTemas{
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.scrollPanelSocial{
+    width: 600px;
+    height: 100px;
+}
+.colorAzul{
+    background-color: #002d52;
+
+}
+.colorGris{
+    background-color: #d9d9d9 !important;
+
+}
+
+
+
+/*
+    Textos de cada pagina
+*/
+
+
+.texto{
+    text-align:justify;
+    color:#3c3c3b; 
+    font-family:Tahoma;
+    padding:10px 20px 10px 55px;
+    font-size:0.9em;
+    border-radius:7px;
+    background-color:#d5d5d5;
+
+}
+
+.ancho{ max-width:80%;}
+
+/* estilos diana 28/03/2013 */
+
+.texturaLogin{
+    background-image: url('../resources/img/dsasoluciones/texturasBarras/textura03.png');
+    background-repeat: repeat;
+    height: 180px;
+    margin:-46px 0px 0px 0px;
+    min-width: 1310px !important;
+}
+
+.loginGris02{
+    background: -webkit-radial-gradient( #006bb6 10%, #002d52 140%);
+    background: -o-radial-gradient( #006bb6 10%, #002d52 140%); 
+    background: -moz-radial-gradient( #006bb6 10%, #002d52 140%); 
+    background: radial-gradient( #006bb6 10%, #002d52 140%);
+    box-shadow:0px 3px 10px #000000;
+    border-radius: 5px;
+    border-radius: 9px;
+    height: 240px;
+    width: 40%;
+}
+
+.loginGris03{
+    height: 241px;
+    padding: 21px;
+    
+}
+
+/***** lenguaje, sesion *****/
+.lenguaje{
+    float:right;
+    margin-right: 2%; 
+    margin-top: 1%;
+}
+
+.lenguaje02{
+    margin-bottom: -8px;
+}
+
+.usuario01{
+    margin-top: 0%; 
+    margin-right: 0%;
+}
+/***** theme primefaces-themeDSAengine************/
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background-color:#ffffff ;
+    background-image: none;
+    color: #222222;  
+}
+.ui-state-hover, 
+.ui-widget-header2 .ui-state-hover,
+.ui-widget-content2 .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content2 .ui-state-focus,
+.ui-widget-header2 .ui-state-focus  {
+    background-color:#005d85 ;
+    background-image: none;
+}
+
+
+.ui-column-filter {
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #0073cd !important;
+}
+
+
+.ui-widget-content{
+    background-color: #e6f3f9;
+}
+
+.centrar{
+    text-align: center;
+    position: center;
+}
+.ui-datatable table{
+    width: 100%;
+}
+.ui-tabs2{
+   width: 100%;
+
+}
+.ui-datatable-data{
+     width: 100%;
+}
+.ui-widget-content2{
+     width: 60%;
+}
+/*help*/
+.help{
+     float: right; 
+     margin-right: -35px;
+     padding-top: 1%;
+}
+
+/* recuperacion password*/
+.pass{
+    /*background-color: #70b5dd;*/
+    box-shadow:0px 3px 10px #000000;
+    border-radius: 4px;
+    padding: 21px 0px 21px 21px;
+    width: 40%
+}
+
+.pass2{
+    margin-top: 2%;
+}
+
+/*scroll*/
+.scroll{
+    overflow: auto;
+    height: 150px;
+}
+
+.panel{
+    border-width: 0px !important;
+    font-weight: normal !important;
+    border-style:none !important;
+    border-color:rgb(34, 34, 34) !important;
+    z-index: 100 !important;
+    
+    
+}
+.panel td{
+    border-width: 0px !important;
+    font-weight: normal !important;
+    border-style:none !important;
+    border-color:rgb(34, 34, 34) !important;
+    white-space: normal !important;
+    z-index: 100 !important;
+}
+/*************/
+.flotarIz{
+    float: left;
+}
+.floatDe{
+    float: right;
+}
+.font{
+    font-size: 1.1em;
+}
+.titulosSeccion{
+    float:left; 
+    margin-left:160px; 
+    font-weight:bold; 
+    font-size: 1.1em; 
+    color:#ffffff; 
+    padding-top: 2%;
+}
+.titulosSeccion_c{
+    color:#f47d44;
+}
+/****28/01/2014/*****/
+.anchoIMG{
+    width: 50px;
+    height: 50px;
+}
+.analiSent{
+    font-style: italic;
+    font-weight: lighter;
+    color: #9c9b9b;
+    font-size: 0.85em;
+}
+.barraCa{
+    background-color: #f4e0d5; 
+    padding-bottom: 3px;
+    padding-top: 3px;
+}
+.fondoBlanco{
+    background-color: #ffffff;
+}
+.alinearDe{
+    text-align: right;
+    width: 100%;
+}
+/***** Error******/
+.loginError{
+    background-color: #EE731A;
+    border-radius: 9px;
+    margin: 10% 27% 1% 27%;
+    padding: 10px 0px 21px 0px;
+    height: auto;
+    box-shadow: 8px 8px 8px #575756;
+}
+a.linkerror:link, a.linkerror:visited {
+    color: #000000;
+    text-decoration: none;
+    border-style: none;
+    border-width: thin;
+    font-size: 1.3em;
+}
+a.linkerror:active, a.linkerror:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    border-style: none;
+    border-width: thin;
+    font-size: 1.3em
+}
+/**************/
+.bordeRadio{
+    border-radius: 5px;
+}

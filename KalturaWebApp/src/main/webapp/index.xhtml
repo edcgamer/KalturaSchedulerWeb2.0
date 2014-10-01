@@ -1,0 +1,1088 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view locale="es">
+        <h:head>
+            <h:outputStylesheet library="css" name="estilos.css"/>
+            <f:loadBundle basename="ApplicationMessages" var="msj" />
+            <p:ajaxStatus onstart="statusDialog.show();"  oncomplete="statusDialog.hide();" >
+            </p:ajaxStatus>
+            <p:dialog modal="true"  widgetVar="statusDialog" resizable="false" header=""   
+                      draggable="false" closable="false">  
+                <h:graphicImage library="img"  name="Loader_SCWEB.gif"/>
+            </p:dialog>
+        </h:head>
+        <body>
+
+            <div id="contenedorGeneral"><!--Inicia contenedor general-->
+                <div id="contenedorPrincipal"><!--Inicia contenedor principal-->
+                    <div id="contenido" >
+                        <div id="header">
+                            <div id="header">
+                                <div class="logoSC">
+                                    <p:graphicImage style="width: 121;height: 41" library="img"  name="iconosHome/SCweb_logo.png" />
+                                </div>
+                                <div class="logoAzteca">
+                                    <p:graphicImage style="width: 160;height: 40" library="img"  name="iconosHome/logoAzteca.png"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="contenido_ch"><!--inicia contenido_ch-->
+
+                            <div id="Usuario"><!--inicia Usuario-->
+                                <center>
+                                    <h:form>
+                                        <div id="content_user_mofulos">
+                                            <p:panelGrid >
+                                                <p:row>
+                                                    <p:column>
+                                                        <h:commandLink immediate="true"  action="factura">
+                                                            <p:graphicImage library="img"  name="factura.png" />
+                                                        </h:commandLink>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <h:commandLink immediate="true" action="home">
+                                                            <p:graphicImage library="img"  name="reporte.jpg" />
+                                                        </h:commandLink>
+                                                    </p:column> 
+                                                    <p:column>
+                                                        <h:commandLink immediate="true" action="comscore">
+                                                            <p:graphicImage library="img"  name="website-traffic.png" />
+                                                        </h:commandLink>
+                                                    </p:column> 
+                                                </p:row>
+                                            </p:panelGrid>
+                                        </div>
+                                    </h:form>
+                                </center>
+                                <div class="etiquetaUsuario" id="contenedornombreusuario">
+                                    <p:outputLabel  styleClass="etiquetaUsuario" value="#{appCredentials.usuarioReal.nombre}"/>
+                                </div>
+                                <div id="content_user_btn">
+
+                                    <div id="botonescontenedor">
+                                        <div class="contentbtn_left" >
+                                            <h:form id="usuario">
+
+                                                <p:commandButton id="pwchange" value="Cambiar pw" styleClass="btns"/>
+                                                <br/>
+                                                <p:overlayPanel id="imgPanel2" for="pwchange" showEffect="blind" hideEffect="blind"
+                                                                showEvent="mousedown" hideEvent="mousedown"  
+                                                                styleClass="fondorestaurar">
+
+                                                    <p:panelGrid  id="panelPassword" columns="3" style="clear: both; width: 250px;  font-size: 0.75em;">
+                                                        <div >Cambiar Contraseña</div>
+                                                        <p:password id="password_registro2" style="height: 10px;"  maxlength="30" required="true" feedback="true" inline="true" weakLabel="debil" goodLabel="buena" strongLabel="fuerte" promptLabel="muy debil" match="passwordConfirm2" validatorMessage="No coinciden" value="#{kalturaController.contrasena}"/>
+                                                        <p:message for="password_registro2"/>
+                                                        <div >#{msg_usuario.confirmar_pass}</div>
+                                                        <p:password id="passwordConfirm2" style="height: 10px;" maxlength="30" required="true" feedback="true" inline="true" weakLabel="debil" goodLabel="buena" strongLabel="fuerte" promptLabel="muy debil"/>
+                                                        <p:message for="passwordConfirm2"/>
+                                                        <f:facet name="footer">
+                                                            <p:commandButton value="Cambiar PW" style="height: 22px;" actionListener="#{kalturaController.cambiaContrasena(appCredentials.usuarioReal.username)}" update=":usuario:panelPassword"  />
+                                                        </f:facet>
+                                                    </p:panelGrid>
+                                                </p:overlayPanel>
+                                            </h:form>
+                                        </div>
+                                        <div class="contentbtn_right">
+                                            <h:form id="logout">
+                                                <p:commandButton value="Logout" action="#{loginController.logout()}" styleClass="btns" ajax="false" />
+                                            </h:form>
+                                        </div>
+                                    </div>    
+                                </div>
+                            </div><!--termina Usuario-->
+                            <h:form id="KalturaFiltros">
+                                <div id="infoleft"><!--inicia infolefth-->
+
+                                    <div class="headerBlue"><!--inicia headerblue-->
+                                        <h1>Filtros de Reportes</h1>
+                                    </div><!--termina headerblue-->
+
+                                    <div id="contentinfo"><!--inicia contentinfo-->
+
+                                        <div id="formularios"><!--inicia contenedor formularios-->
+                                            <div class="contenedor-fechas">
+                                                <div class="form1">
+                                                    <label>Fecha inicio de reporte</label>
+                                                    <p:calendar id="c1"  value="#{kalturaController.fechaInicioView}"  readonlyInput="true" maxdate="#{kalturaController.hoy}" size="10" >
+                                                        <p:ajax event="dateSelect"  update=":KalturaFiltros:c1 :KalturaFiltros:inicioAlert" listener="#{kalturaController.verificaFechaMenor()}"/>
+                                                    </p:calendar>
+                                                    <p:messages id="inicioAlert"  showDetail="true"  severity="warn" closable="true"/>
+                                                </div> 
+                                                <div class="form2">
+                                                    <label>Fecha final de reporte</label>
+                                                    <p:calendar id="c2" value="#{kalturaController.fechafinView}" readonlyInput="true" maxdate="#{kalturaController.hoy}" size="10">
+                                                        <p:ajax event="dateSelect"  update=":KalturaFiltros:c2 :KalturaFiltros:finalAlert" listener="#{kalturaController.verificaFechaMayor()}"/>
+                                                    </p:calendar>
+                                                    <p:messages id="finalAlert" showDetail="true"  severity="warn" closable="true"/>
+                                                </div> 
+                                            </div>
+                                            <div class="contenedor-unitario">
+                                                <div class="form3">
+                                                    <label>Valor unitario storage</label>
+                                                    <p:inputText  id="valorUnitarioTam" validator="numericValidator" value="#{kalturaController.valorUnitarioTamView}" />
+                                                    <p:message for="valorUnitarioTam"/> 
+                                                </div>   
+                                                <div class="form4">
+                                                    <label>Valor unitario segundo</label>
+                                                    <p:inputText id="valorUnitarioMIN" validator="numericValidator" value="#{kalturaController.valorUnitarioMINView}" />
+                                                    <p:message for="valorUnitarioMIN"/> 
+                                                </div> 
+                                            </div>
+                                            <div class="contenedor-unitario">
+                                                <div class="form5">
+                                                    <div class="form8">
+                                                Ultimo update :#{kalturaController.ultimaFechaConsumida}
+                                                </div>
+                                                </div>
+                                            </div>
+                                            <div class="contenedor-check">
+                                                <div class="form5">
+                                                    <label>Videos no vistos </label>
+                                                    <p:selectBooleanCheckbox value="#{kalturaController.mostrarNoVistosView}" >
+                                                        <p:ajax id="selectBox" event="change" update=":KalturaFiltros" listener="#{kalturaController.mostrarRangoDeCreacion()}"/>
+                                                    </p:selectBooleanCheckbox>
+                                                </div> 
+                                            </div>
+                                            <div class="contenedor-fechas2">
+                                                <div class="form7">
+                                                <h:panelGroup rendered="#{kalturaController.mostrarRangoCreacion}">
+                                                        <label>Fecha inicio de Creación</label>
+                                                        <p:calendar id="c4"  value="#{kalturaController.fechaInicioViewCrea}"  readonlyInput="true" maxdate="#{kalturaController.hoy}" size="10" >
+                                                            <p:ajax event="dateSelect"  update=":KalturaFiltros:c4 :KalturaFiltros:finalAlertCrea" listener="#{kalturaController.verificaFechaMenorCrea()}"/>
+                                                        </p:calendar>
+                                                        <p:messages id="finalAlertCrea" showDetail="true"  severity="warn" closable="true"/>
+                                                    </h:panelGroup>
+                                                    </div>
+                                                <div class="form6">
+                                                    <h:panelGroup rendered="#{kalturaController.mostrarRangoCreacion}">
+                                                        <label>Fecha Final de Creación</label>
+                                                        <p:calendar id="c3"  value="#{kalturaController.fechafinViewCrea}"  readonlyInput="true" maxdate="#{kalturaController.hoy}" size="10" >
+                                                            <p:ajax event="dateSelect"  update=":KalturaFiltros:c3 :KalturaFiltros:inicioAlertCrea" listener="#{kalturaController.verificaFechaMenorCrea()}"/>
+                                                        </p:calendar>
+                                                        <p:messages id="inicioAlertCrea" showDetail="true"  severity="warn" closable="true"/>
+                                                    </h:panelGroup>
+                                                </div>
+                                            </div>
+                                            
+                                            <div id="contenidoBotonera"><!--Inicia Botonera-->
+                                            <div id="botonescontenedor">
+                                                <div class="contentbtn_left" >
+                                                    <p:commandButton  styleClass="btns" value="Aplicar filtros"  update=":KalturaFiltros :kalturaTablas" actionListener="#{kalturaController.botonFiltrosAction()}"/>
+                                                </div>
+                                                <div class="contentbtn_right"> 
+                                                    <p:commandButton styleClass="btns" value="Limpiar Filtros" actionListener="#{kalturaController.init()}" update=":KalturaFiltros :kalturaTablas"/>
+                                                </div>
+                                            </div>    
+                                        </div><!--Termina Botonera-->
+                                        </div><!--termina contenedor formularios-->
+
+
+                                        
+                                    </div><!--termina contentinfo-->
+                                </div><!--termina infoleft-->
+                            </h:form>
+
+                            <h:form id="kalturaTablas">
+                                <div id="seccion_dos"><!--INICIA SECCION DOS-->
+
+                                    <div class="headerBlue"><!--inicia headerblue de la seguna seccion-->
+                                        <h1>Reportes</h1>
+                                    </div><!--termina headerblue de la segunda seccion-->
+
+                                    <div class="bargray"><!--Inicia Barra Gris-->
+                                        <div id="titleleft"><h2>Configuración</h2></div>
+                                        <div id="titleright"><h2>Vista</h2></div>
+                                    </div><!--Termina barra gri-->
+
+                                    <div id="content_seccion_dos"><!--Inicia content_Seccion_dos-->
+
+                                        <div id="left_seccion_dos"> 
+
+                                            <div id="content_form_dos_A">
+                                                <div id="form_only">
+                                                    <label>Cuentas Kaltura</label>
+                                                    <p:selectOneMenu  styleClass="styleselect" style="width: 200px" rendered="#{kalturaController.listaCuentas.size()>0}" tabindex="0" value="#{kalturaController.cuentaSeleccionada}"  filter="true" filterMatchMode="startsWith">
+                                                        <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{kalturaController.listaCuentas}"
+                                                                       var="_cuentas" 
+                                                                       itemLabel="#{_cuentas.nombre}" 
+                                                                       itemValue="#{_cuentas.nombre}"/>   
+                                                        <p:ajax  update=":kalturaTablas" listener="#{kalturaController.seleccionCuenta(false,kalturaController.tipoVideos)}"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div id="content_form_dos_A">
+                                                <div id="form_only">
+                                                    <label>Unidades</label>
+                                                    <p:selectOneMenu styleClass="styleselect" style="width: 200px"  rendered="#{kalturaController.listaUnidades.size()>0}" value="#{kalturaController.unidadSeleccionada}"  filter="true" filterMatchMode="startsWith">
+                                                        <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{kalturaController.listaUnidades}"
+                                                                       var="_unidades" 
+                                                                       itemLabel="#{kalturaController.replaceAcentos(_unidades.nombre)}" 
+                                                                       itemValue="#{_unidades.nombre}"/>   
+                                                        <p:ajax  update=":kalturaTablas" listener="#{kalturaController.seleccionUnidad(false,kalturaController.tipoVideos)}"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div id="content_form_dos_A">
+                                                <div id="form_only">
+                                                    <label>Fabricas</label>
+                                                    <p:selectOneMenu styleClass="styleselect" style="width: 200px"  rendered="#{kalturaController.listaFabricas.size()>0}" value="#{kalturaController.fabricaSeleccionada}"  filter="true" filterMatchMode="startsWith">
+                                                        <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{kalturaController.listaFabricas}"
+                                                                       var="_fabricas" 
+                                                                       itemLabel="#{kalturaController.replaceAcentos(_fabricas.nombre)}" 
+                                                                       itemValue="#{_fabricas.nombre}"/>   
+                                                        <p:ajax  update=":kalturaTablas" listener="#{kalturaController.seleccionFabrica(false,kalturaController.tipoVideos)}"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                            <div id="content_form_dos_A">
+                                                <div id="form_only">
+                                                    <label>Programas</label>
+                                                    <p:selectOneMenu styleClass="styleselect" style="width: 200px"  rendered="#{kalturaController.listaProgramas.size()>0}" value="#{kalturaController.programaSeleccionado}"  filter="true" filterMatchMode="startsWith">
+                                                        <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                        <f:selectItems value="#{kalturaController.listaProgramas}"
+                                                                       var="_programas" 
+                                                                       itemLabel="#{kalturaController.replaceAcentos(_programas.nombre)}" 
+                                                                       itemValue="#{_programas.nombre}"/>   
+                                                        <p:ajax  update=":kalturaTablas" listener="#{kalturaController.seleccionPrograma(false,kalturaController.tipoVideos)}"/>
+                                                    </p:selectOneMenu>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div id="right_seccion_dos"><!--Inicia right_Seccion_dos-->
+                                            <div id="contenticons"> 
+                                                <div class="Icons">
+                                                    <h:commandLink immediate="true"   actionListener="#{kalturaController.activaBusqueda()}">
+                                                        <p:ajax update=":kalturaTablas" />
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosBotones/icons-15.png" rendered="#{not kalturaController.busquedaActiva }" />
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosBotones/icons-16.png" rendered="#{ kalturaController.busquedaActiva}" />
+                                                    </h:commandLink>
+
+                                                </div>
+                                                <div class="Icons">
+                                                    <h:commandLink immediate="true"  rendered="#{not kalturaController.mostrarNoVistos}" actionListener="#{kalturaController.activaGrafica()}">
+                                                        <p:ajax update=":kalturaTablas" />
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosHome/icons-graficas.png" rendered="#{not kalturaController.graficaActiva or  kalturaController.busquedaActiva}"/>
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosHome/icons-graficas2.png" rendered="#{kalturaController.graficaActiva and not  kalturaController.busquedaActiva}"/>
+                                                    </h:commandLink>
+
+                                                </div>
+                                                <div class="Icons">
+                                                    <h:commandLink immediate="true"  actionListener="#{kalturaController.activaTablas()}">
+                                                        <p:ajax update=":kalturaTablas" />
+                                                        <p:graphicImage width="32" height="31"  library="img"  name="iconosHome/icons_tablas2.png" rendered="#{not kalturaController.graficaActiva and not kalturaController.busquedaActiva}" />
+                                                        <p:graphicImage width="30" height="31"  library="img"  name="iconosHome/icons-Tablas.png"  rendered="#{ kalturaController.graficaActiva or  kalturaController.busquedaActiva}"/>
+                                                    </h:commandLink>
+                                                </div>
+                                            </div>
+
+                                            <div id="ContenedorInformacion">
+                                                <p:tabView id="tabReportes" style="width: 100%;font-size: 12px" rendered="#{(kalturaController.renderedTabReporteGlobal()) and not kalturaController.graficaActiva and not kalturaController.busquedaActiva}">
+                                                    <p:tab id="reporteGloblaltab" title="Reporte Globlal" rendered="#{kalturaController.renderedTabReporteGlobal()}">
+                                                        <p:panelGrid  style="font-size: 12px" rendered="#{kalturaController.repGenGraGlobal.tabla.size()>0}">
+                                                            <f:facet name="header"> 
+                                                                <p:row>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Total de videos"/>
+                                                                    </p:column>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Total de tamaño"/>
+                                                                        <br/>
+                                                                        <h:outputText value="(GB)" />
+                                                                    </p:column>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Total de Segundos visto"/>
+                                                                        <br/>
+                                                                        <h:outputText value="(Seg)" />
+                                                                    </p:column>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Vr Total de tamaño"/>
+                                                                        <br/>
+                                                                        <h:outputText value="($)" />
+                                                                    </p:column>
+                                                                    <p:column >
+                                                                        <p:outputLabel value="Vr Total de tiempo visto"/>
+                                                                        <br/>
+                                                                        <h:outputText value="($)" />
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </f:facet>
+                                                            <p:row>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="#{kalturaController.reporteGlobalTotal.totalEntrysStr}"/>
+                                                                </p:column>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="#{kalturaController.reporteGlobalTotal.tamanioStr}"/>
+                                                                </p:column>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="#{kalturaController.reporteGlobalTotal.minVistosStr} "/>
+                                                                </p:column>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="$#{kalturaController.reporteGlobalTotal.tamUniStr} "/>
+                                                                </p:column>
+                                                                <p:column style="text-align: right">
+                                                                    <p:outputLabel value="$#{kalturaController.reporteGlobalTotal.minVisUniStr} "/>
+                                                                </p:column>
+                                                            </p:row>
+                                                        </p:panelGrid>
+                                                        <div style="overflow:auto;  ">
+                                                            <p:dataTable   style="width: 100%;font-size: 12px" id="tablatotalesGeneralCuenta" value="#{kalturaController.repGenGraGlobal.tabla}" rows="10" var="_reporteGlobal" rendered="#{kalturaController.repGenGraGlobal.tabla.size()>0 }"
+                                                                           paginator="true"
+                                                                           paginatorPosition="bottom" >
+                                                                <p:column headerText="Nombre" sortBy="#{_reporteGlobal.nombre}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Nombre" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.nombre}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Total Entrys" style="text-align: right" sortBy="#{_reporteGlobal.totalEntrys}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Total Entrys" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.totalEntrysStr}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Storageaaa"  style="text-align: right" sortBy="#{_reporteGlobal.tamanio}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Storage (GB)" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.tamanioStr}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Visto" style="text-align: right" sortBy="#{_reporteGlobal.minVistos}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Tiempo Visto(Segs)" />
+
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_reporteGlobal.minVistosStr}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Visto Unitario"  style="text-align: right" sortBy="#{_reporteGlobal.tamUni}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Storage Unitario($)" />
+
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="$#{_reporteGlobal.tamUniStr}"/>
+                                                                </p:column>
+                                                                <p:column headerText="Tiempo Visto Unitario" style="text-align: right" sortBy="#{_reporteGlobal.minVisUni}">
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Tiempo Visto($)" />
+
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="$#{_reporteGlobal.minVisUniStr}"/>
+                                                                </p:column>
+
+                                                            </p:dataTable>
+                                                        </div>
+                                                        <center>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralCuenta" fileName="ReporteGlobal" />
+                                                            </h:commandLink>
+                                                            <br/>
+                                                            <br/>
+                                                            <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneral2" value="#{kalturaController.repGenGraGlobal.tabla2}" rows="5" var="_reporteCuentaNoVistos" rendered="#{kalturaController.repGenGraGlobal.tabla2.size()>0 and kalturaController.mostrarNoVistos}"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                <p:column headerText="Entry" sortBy="#{_reporteCuentaNoVistos.entryId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Entry" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuentaNoVistos.entryId}"/>
+                                                                    </p:column>
+                                                                <p:column headerText="Partner Id" style="text-align: right" sortBy="#{_reporteCuentaNoVistos.partnerId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Partner Id" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuentaNoVistos.partnerId}"/>
+                                                                    </p:column>
+                                                             </p:dataTable>
+                                                            <h:commandLink immediate="true" rendered="#{kalturaController.repGenGraGlobal.tabla2.size()>0 and 65535>kalturaController.repGenGraGlobal.tabla2.size() and kalturaController.mostrarNoVistos}" >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneral2" fileName="ReporteGlobalNovistos" />
+                                                            </h:commandLink>
+                                                            <br/>
+                                                            <br/>
+                                                            <br/>
+                                                            <p:commandButton value="Generar Top"  actionListener="#{kalturaController.generaTop()}" update="@form" rendered="#{not kalturaController.mostrarTop and not kalturaController.mostrarNoVistos}"/>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable   style="width: 100%;font-size: 12px" id="tablatotalesGeneralCuentaTop" value="#{kalturaController.reporteTop.tabla}" rows="10" var="_reporteGlobalTop" rendered="#{kalturaController.reporteTop.tabla.size()>0 and  kalturaController.mostrarTop}"
+                                                                               paginator="true"
+                                                                               paginatorPosition="bottom" 
+
+                                                                               paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                               >
+
+                                                                    <p:column headerText="Programa "  sortBy="#{_reporteGlobalTop.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Programa " />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteGlobalTop.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Cuenta "  sortBy="#{_reporteGlobalTop.nombreCuenta}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Unidad " />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteGlobalTop.nombreUnidad}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Unidad " sortBy="#{_reporteGlobalTop.nombreFabrica}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Fabrica " />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteGlobalTop.nombreFabrica}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto " style="text-align: right" sortBy="#{_reporteGlobalTop.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto " />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteGlobalTop.minVistosStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Porcentaje" style="text-align: right" sortBy="#{_reporteGlobalTop.porciento}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Porcentaje" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteGlobalTop.porcientoStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario" style="text-align: right" sortBy="#{_reporteGlobalTop.minVisUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto Unitario" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteGlobalTop.minVisUniStr}"/>
+                                                                    </p:column>
+                                                                </p:dataTable>
+                                                                <h:commandLink immediate="true"  rendered="#{kalturaController.mostrarTop}" >
+                                                                    <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                    <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                    target="tablatotalesGeneralCuentaTop" fileName="ReporteGlobal" />
+                                                                </h:commandLink>
+                                                            </div>
+                                                        </center>
+                                                    </p:tab>
+                                                    <p:tab id="reporteCuentatab" title="Reporte Cuenta" rendered="#{kalturaController.renderedTabReporteCuenta()}">
+                                                        <center>
+                                                            <p:panelGrid style="width: 100%;font-size: 12px" rendered="#{kalturaController.repGenGraCuenta.tabla.size()>0}">
+                                                                <f:facet name="header"> 
+                                                                    <p:row>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de videos"/>
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(GB)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de Segundos visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(Seg)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tiempo visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                    </p:row>
+                                                                </f:facet>
+                                                                <p:row>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteCuentaTotal.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteCuentaTotal.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteCuentaTotal.minVistosStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteCuentaTotal.tamUniStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteCuentaTotal.minVisUniStr} "/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </p:panelGrid>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneral" value="#{kalturaController.repGenGraCuenta.tabla}" rows="5" var="_reporteCuenta" rendered="#{kalturaController.repGenGraCuenta.tabla.size()>0 }"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                    <p:column headerText="Nombre" sortBy="#{_reporteCuenta.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Nombre" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuenta.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Total Entrys" style="text-align: right" sortBy="#{_reporteCuenta.totalEntrys}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Total Entrys" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuenta.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Storage" style="text-align: right" sortBy="#{_reporteCuenta.tamanio}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage(GB)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuenta.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto"  style="text-align: right" sortBy="#{_reporteCuenta.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto(Segs)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuenta.minVistosStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario"  style="text-align: right" sortBy="#{_reporteCuenta.tamUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage Unitario($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteCuenta.tamUniStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario" style="text-align: right" sortBy="#{_reporteCuenta.minVisUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteCuenta.minVisUniStr}"/>
+                                                                    </p:column>
+
+                                                                </p:dataTable>
+                                                            </div>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneral" fileName="ReporteCuenta_#{kalturaController.cuentaSeleccionada}" />
+                                                            </h:commandLink>
+                                                            
+                                                            <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneralNovisto" value="#{kalturaController.repGenGraCuenta.tabla2}" rows="5" var="_reporteCuentaNoVistos2" rendered="#{kalturaController.repGenGraCuenta.tabla2.size()>0 and kalturaController.mostrarNoVistos}"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                <p:column headerText="Entry" sortBy="#{_reporteCuentaNoVistos2.entryId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Entry" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuentaNoVistos2.entryId}"/>
+                                                                    </p:column>
+                                                                <p:column headerText="Partner Id" style="text-align: right" sortBy="#{_reporteCuentaNoVistos2.partnerId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Partner Id" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteCuentaNoVistos2.partnerId}"/>
+                                                                    </p:column>
+                                                             </p:dataTable>
+                                                            <h:commandLink immediate="true" rendered="#{kalturaController.repGenGraCuenta.tabla2.size()>0 and kalturaController.mostrarNoVistos }" >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralNovisto" fileName="ReporteGlobalCuentaNovisto" />
+                                                            </h:commandLink>
+                                                            <br/>
+                                                            <br/>
+                                                        </center>
+                                                    </p:tab>
+                                                    <p:tab id="reporteFabtab"  title="Reporte Unidad" rendered="#{kalturaController.renderedTabReporteUnidad()}">
+                                                        <center>
+                                                            <p:panelGrid style="width: 100%;font-size: 12px" rendered="#{kalturaController.repGenGraUnidad.tabla.size()>0}">
+                                                                <f:facet name="header"> 
+                                                                    <p:row>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de videos"/>
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(GB)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de Segundos visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(Seg)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tiempo visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                    </p:row>
+                                                                </f:facet>
+                                                                <p:row>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteUnidadTotal.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteUnidadTotal.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteUnidadTotal.minVistosStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteUnidadTotal.tamUniStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteUnidadTotal.minVisUniStr} "/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </p:panelGrid>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneralUnidad" value="#{kalturaController.repGenGraUnidad.tabla}" rows="5" var="_reporteUnidad" rendered="#{kalturaController.repGenGraUnidad.tabla.size()>0 }"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                    <p:column headerText="Nombre" sortBy="#{_reporteGlobal.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Nombre" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteUnidad.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Total Entrys" style="text-align: right" sortBy="#{_reporteUnidad.totalEntrys}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Total Entrys" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteUnidad.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Storage" style="text-align: right" sortBy="#{_reporteUnidad.tamanio}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage(GB)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteUnidad.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto" style="text-align: right" sortBy="#{_reporteUnidad.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto(Segs)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteUnidad.minVistosStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario"  style="text-align: right" sortBy="#{_reporteUnidad.tamUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage Unitario($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteUnidad.tamUniStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario" style="text-align: right" sortBy="#{_reporteUnidad.minVisUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteUnidad.minVisUniStr}"/>
+                                                                    </p:column>
+                                                                </p:dataTable>
+                                                            </div>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralUnidad" fileName="ReporteUnidad_#{kalturaController.unidadSeleccionada}" />
+                                                            </h:commandLink>
+                                                            <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesUnidadNovisto" value="#{kalturaController.repGenGraUnidad.tabla2}" rows="5" var="_reporteUnidadNoVistos" rendered="#{kalturaController.repGenGraGlobal.tabla2.size()>0 and kalturaController.mostrarNoVistos}"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                <p:column headerText="Entry" sortBy="#{_reporteUnidadNoVistos.entryId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Entry" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteUnidadNoVistos.entryId}"/>
+                                                                    </p:column>
+                                                                <p:column headerText="Partner Id" style="text-align: right" sortBy="#{_reporteUnidadNoVistos.partnerId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Partner Id" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteUnidadNoVistos.partnerId}"/>
+                                                                    </p:column>
+                                                             </p:dataTable>
+                                                            <h:commandLink immediate="true" rendered="#{kalturaController.repGenGraUnidad.tabla2.size()>0 and kalturaController.mostrarNoVistos}" >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesUnidadNovisto" fileName="ReporteGlobalUnidadNovistos" />
+                                                            </h:commandLink>
+                                                            <br/>
+                                                            <br/>
+                                                        </center>
+                                                    </p:tab>
+                                                    <p:tab id="reporteprotab" title="Reporte Fabrica" rendered="#{kalturaController.renderedTabReporteFabrica()}">
+                                                        <center>
+                                                            <p:panelGrid style="width: 100%;font-size: 12px" rendered="#{kalturaController.repGenGraFabrica.tabla.size()>0}">
+                                                                <f:facet name="header"> 
+                                                                    <p:row>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de videos"/>
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(GB)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de Segundos visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(Seg)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tiempo visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                    </p:row>
+                                                                </f:facet>
+                                                                <p:row>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteFabricaTotal.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteFabricaTotal.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteFabricaTotal.minVistosStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteFabricaTotal.tamUniStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteFabricaTotal.minVisUniStr} "/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </p:panelGrid>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesGeneralfabrica" value="#{kalturaController.repGenGraFabrica.tabla}" rows="5" var="_reporteFabrica" rendered="#{kalturaController.repGenGraFabrica.tabla.size()>0 }"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                    <p:column headerText="Nombre" sortBy="#{_reporteFabrica.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Nombre" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Total Entrys" style="text-align: right" sortBy="#{_reporteFabrica.totalEntrys}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Total Entrys" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Storage" style="text-align: right" sortBy="#{_reporteFabrica.tamanio}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage(GB)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto" style="text-align: right" sortBy="#{_reporteFabrica.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto(Segs)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabrica.minVistosStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario"  style="text-align: right" sortBy="#{_reporteFabrica.tamUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage Unitario($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteFabrica.tamUniStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario" style="text-align: right" sortBy="#{_reporteFabrica.minVisUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reporteFabrica.minVisUniStr}"/>
+                                                                    </p:column>
+                                                                </p:dataTable>
+                                                            </div>
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralfabrica" fileName="ReporteFabrica_#{kalturaController.fabricaSeleccionada}" />
+                                                            </h:commandLink>
+                                                            <p:dataTable  style="width: 100%;font-size: 12px" id="tablatotalesFabricaNoVistos" value="#{kalturaController.repGenGraFabrica.tabla2}" rows="5" var="_reporteFabricaNoVistos" rendered="#{kalturaController.repGenGraFabrica.tabla2.size()>0 and kalturaController.mostrarNoVistos}"
+                                                                              paginator="true"
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                <p:column headerText="Entry" sortBy="#{_reporteFabricaNoVistos.entryId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Entry" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabricaNoVistos.entryId}"/>
+                                                                    </p:column>
+                                                                <p:column headerText="Partner Id" style="text-align: right" sortBy="#{_reporteFabricaNoVistos.partnerId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Partner Id" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reporteFabricaNoVistos.partnerId}"/>
+                                                                    </p:column>
+                                                             </p:dataTable>
+                                                            <h:commandLink immediate="true" rendered="#{kalturaController.repGenGraFabrica.tabla2.size()>0 and kalturaController.mostrarNoVistos}" >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesFabricaNoVistos" fileName="ReporteGlobalUnidadNovistos" />
+                                                            </h:commandLink>
+                                                        </center>
+                                                    </p:tab>
+                                                    <p:tab id="reporteEnttab" title="Reporte Programa" rendered="#{kalturaController.renderedTabReportePrograma()}">
+                                                        <center>
+                                                            <p:panelGrid style="width: 100%;font-size: 12px" rendered="#{kalturaController.repGenGraPrograma.tabla.size()>0}">
+                                                                <f:facet name="header"> 
+                                                                    <p:row>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de videos"/>
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(GB)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Total de Segundos visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="(Seg)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tamaño"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                        <p:column >
+                                                                            <p:outputLabel value="Vr Total de tiempo visto"/>
+                                                                            <br/>
+                                                                            <h:outputText value="($)" />
+                                                                        </p:column>
+                                                                    </p:row>
+                                                                </f:facet>
+                                                                <p:row>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteProgramaTotal.totalEntrysStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteProgramaTotal.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="#{kalturaController.reporteProgramaTotal.minVistosStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteProgramaTotal.tamUniStr} "/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right">
+                                                                        <p:outputLabel value="$#{kalturaController.reporteProgramaTotal.minVisUniStr} "/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </p:panelGrid>
+                                                            <div style="overflow:auto;  ">
+                                                                <p:dataTable  style="width: auto;font-size: 12px" id="tablatotalesGeneralPrograma" value="#{kalturaController.repGenGraPrograma.tabla}" rows="5" var="_reportePrograma" rendered="#{kalturaController.repGenGraPrograma.tabla.size()>0 }"
+                                                                              paginator="true" 
+                                                                              paginatorPosition="bottom" 
+                                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                                    <p:column headerText="Entry id" sortBy="#{_reportePrograma.nombre}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Entry id" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.nombre}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Nombre" sortBy="#{_reportePrograma.entryId}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Nombre" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.entryId}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Cuenta"  sortBy="#{_reportePrograma.nombreCuenta}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Cuenta" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.nombreCuenta}"/>
+                                                                    </p:column>
+                                                                    <p:column  headerText="fecha de creacion" sortBy="#{_reportePrograma.fechaCreacion}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="fecha de creacion" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.fechaCreacion}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Unidad" sortBy="#{_reportePrograma.nombreUnidad}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Unidad" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.nombreUnidad}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Fabrica" sortBy="#{_reportePrograma.nombreFabrica}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Fabrica" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.nombreFabrica}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Programa" sortBy="#{_reportePrograma.nombrePrograma}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Programa" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.nombrePrograma}"/>
+                                                                    </p:column>
+                                                                    <p:column style="text-align: right" headerText="Duracion" sortBy="#{_reportePrograma.duration}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Duracion" />
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.durationStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Storage" style="text-align: right" sortBy="#{_reportePrograma.tamanio}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage(GB)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.tamanioStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto" style="text-align: right" sortBy="#{_reportePrograma.minVistos}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto(Segs)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="#{_reportePrograma.minVistosStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario"  style="text-align: right" sortBy="#{_reportePrograma.tamUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Storage Unitario($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reportePrograma.tamUniStr}"/>
+                                                                    </p:column>
+                                                                    <p:column headerText="Tiempo Visto Unitario" style="text-align: right" sortBy="#{_reportePrograma.minVisUni}">
+                                                                        <f:facet name="header" >
+                                                                            <h:outputText value="Tiempo Visto($)" />
+
+                                                                        </f:facet>
+                                                                        <p:outputLabel value="$#{_reportePrograma.minVisUniStr}"/>
+                                                                    </p:column>
+
+                                                                </p:dataTable>
+                                                            </div>  
+                                                            <h:commandLink immediate="true"  >
+                                                                <p:graphicImage library="img"  name="excel.jpg" />
+
+                                                                <p:dataExporter type="xls" postProcessor="#{kalturaController.postProcessXLS}"
+                                                                                target="tablatotalesGeneralPrograma" fileName="ReportePrograma_#{kalturaController.programaSeleccionado}" />
+                                                            </h:commandLink>
+                                                        </center>
+                                                    </p:tab>
+                                                </p:tabView>
+                                                
+                                                <p:outputLabel value="Busqueda de categorias" rendered="#{ kalturaController.busquedaActiva}" />
+                                                <p:inputText value="#{kalturaController.busquedaCategoria}" style="width: 180px"  rendered="#{kalturaController.busquedaActiva}"/>
+                                                <p:commandButton value="buscar" actionListener="#{kalturaController.buscaCategorias()}" update="@form" rendered="#{kalturaController.busquedaActiva}"/>
+                                                <p:dataTable  style="width: auto;font-size: 12px" id="busquedaCategorias" value="#{kalturaController.reporteBusquedaCategorias.tabla}" rows="5" var="_reporteBusquedas" rendered="#{kalturaController.reporteBusquedaCategorias.tabla.size()>0 and kalturaController.busquedaActiva }"
+                                                              paginator="true" 
+                                                              paginatorPosition="bottom" 
+                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                    <p:column headerText="Tipo" sortBy="#{_reporteBusquedas.entryId}">
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Tipo" />
+                                                        </f:facet>
+                                                        <p:outputLabel value="#{_reporteBusquedas.entryId}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Nombre" sortBy="#{_reporteBusquedas.nombre}">
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Nombre" />
+                                                        </f:facet>
+                                                        <p:outputLabel value="#{_reporteBusquedas.nombre}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Cuenta" sortBy="#{_reporteBusquedas.nombreCuenta}">
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Cuenta" />
+                                                        </f:facet>
+                                                        <p:outputLabel value="#{_reporteBusquedas.nombreCuenta}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Unidad" sortBy="#{_reporteBusquedas.nombreUnidad}">
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Unidad" />
+                                                        </f:facet>
+                                                        <p:outputLabel value="#{_reporteBusquedas.nombreUnidad}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Fabrica" sortBy="#{_reporteBusquedas.nombreFabrica}">
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Fabrica" />
+                                                        </f:facet>
+                                                        <p:outputLabel value="#{_reporteBusquedas.nombreFabrica}"/>
+                                                    </p:column>
+                                                </p:dataTable>
+
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraGlobal.graficaStorage}" title="Storage Global(GB)" xaxisAngle="45" rendered="#{kalturaController.repGenGraGlobal.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraGlobal.graficaTiempoVisto}" title="Tiempo visto Global(Segs)" xaxisAngle="45" rendered="#{kalturaController.repGenGraGlobal.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraGlobal.graficaProductividad}" title="Productividad Global" xaxisAngle="45" rendered="#{kalturaController.repGenGraGlobal.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraCuenta.graficaStorage}" title="Storage Cuenta_#{kalturaController.cuentaSeleccionada}(GB)" xaxisAngle="45" rendered="#{kalturaController.repGenGraCuenta.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraCuenta.graficaTiempoVisto}" title="Tiempo visto Cuenta_#{kalturaController.cuentaSeleccionada}(Segs)" xaxisAngle="45" rendered="#{kalturaController.repGenGraCuenta.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraCuenta.graficaProductividad}" title="Productividad Cuenta_#{kalturaController.cuentaSeleccionada}" xaxisAngle="45" rendered="#{kalturaController.repGenGraCuenta.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraUnidad.graficaStorage}" title="Storage Unidad_#{kalturaController.unidadSeleccionada}(GB)" xaxisAngle="45" rendered="#{kalturaController.repGenGraUnidad.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraUnidad.graficaTiempoVisto}" title="Tiempo visto Unidad_#{kalturaController.unidadSeleccionada}(Segs)" xaxisAngle="45" rendered="#{kalturaController.repGenGraUnidad.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraUnidad.graficaProductividad}" title="Productividad Cuenta_#{kalturaController.unidadSeleccionada}" xaxisAngle="45" rendered="#{kalturaController.repGenGraUnidad.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraFabrica.graficaStorage}" title="Storage Fabrica_#{kalturaController.fabricaSeleccionada}(GB)" xaxisAngle="45" rendered="#{kalturaController.repGenGraFabrica.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraFabrica.graficaTiempoVisto}" title="Tiempo visto Fabrica_#{kalturaController.fabricaSeleccionada}(Segs)" xaxisAngle="45" rendered="#{kalturaController.repGenGraFabrica.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraFabrica.graficaProductividad}" title="Productividad Cuenta_#{kalturaController.fabricaSeleccionada}" xaxisAngle="45" rendered="#{kalturaController.repGenGraFabrica.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraPrograma.graficaStorage}" title="Storage Programa_#{kalturaController.programaSeleccionado}(GB)" xaxisAngle="45" rendered="#{kalturaController.repGenGraPrograma.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraPrograma.graficaTiempoVisto}" title="Tiempo visto Programa_#{kalturaController.programaSeleccionado}(Segs)" xaxisAngle="45" rendered="#{kalturaController.repGenGraPrograma.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+                                                <p:lineChart style="height: 600px" value="#{kalturaController.repGenGraPrograma.graficaProductividad}" title="Productividad Cuenta_#{kalturaController.programaSeleccionado}" xaxisAngle="45" rendered="#{kalturaController.repGenGraPrograma.tabla.size()>0 and kalturaController.graficaActiva and not kalturaController.busquedaActiva}"/>
+
+                                            </div>
+                                        </div><!--termina right_Seccion_dos-->
+
+
+                                    </div><!--Inicia content_Seccion_dos-->
+                                </div>
+
+                            </h:form>
+
+                        </div>
+                    </div> <!--Inicia contenedor principal-->   
+                </div><!--termina contenedor general-->  
+            </div><!--termina contenedor general-->  
+        </body>
+    </f:view>
+</html>
+

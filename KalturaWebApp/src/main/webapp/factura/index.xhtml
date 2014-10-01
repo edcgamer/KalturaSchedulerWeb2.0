@@ -1,0 +1,498 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <f:view locale="es">
+        <h:head>
+            <h:outputStylesheet library="css" name="default.css"/>
+            <f:loadBundle basename="ApplicationMessages" var="msj" />
+            <p:ajaxStatus onstart="statusDialog.show();"  oncomplete="statusDialog.hide();" >
+            </p:ajaxStatus>
+            <p:dialog modal="true" widgetVar="statusDialog" resizable="false" header=""   
+                      draggable="false" closable="false">  
+                <h:graphicImage library="img"  name="azteca.gif"/>
+            </p:dialog>
+        </h:head>
+        <h:body>
+
+            <center>
+                <h:form id="dialogos">
+                    <p:dialog dynamic="true" modal="true"  widgetVar="agregaConsumo" resizable="false" header="Agregar nuevo consumo" closable="false"    
+                              draggable="true"  >  
+                        <h:form id="creaConsumo">
+                            <p:outputLabel style="font-size: 20px" value="Nombre:"/>
+                            <br/>
+                            <p:inputText   value="#{facturaController.nuevoConsumo}"/>
+                            <br/>
+                            <br/>
+                            <p:commandButton process="@form" oncomplete="agregaConsumo.hide();" actionListener="#{facturaController.guardaConsumoNuevo()}" value="guardar" update="@form :tablas"  />
+                            <p:commandButton process="@form" oncomplete="agregaConsumo.hide();" value="salir" update="@form" />
+                        </h:form>
+                    </p:dialog>
+                    <p:dialog dynamic="true" modal="true"  widgetVar="agregaServicio" resizable="false" header="Agregar Tipo de Servicio" closable="false"    
+                              draggable="true"  >  
+                        <h:form id="creaServicio">
+                            <p:outputLabel style="font-size: 20px" value="Nombre:"/>
+                            <br/>
+                            <p:inputText   value="#{facturaController.nuevotipoServicio.nombre}"/>
+                            <br/>
+                            <br/>
+                            <p:outputLabel style="font-size: 20px" value="Provedor:"/>
+                            <br/>
+                            <p:inputText   value="#{facturaController.nuevotipoServicio.provedor}"/>
+                            <br/>
+                            <br/>
+                            <p:outputLabel style="font-size: 20px" value="Consumo:"/>
+                            <br/>
+                            <p:selectOneMenu  id="selectConsumo" rendered="#{facturaController.listaConsumos.size()>0}" value="#{facturaController.consumoSeleccionado}"  filter="true" filterMatchMode="startsWith">
+                                <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                <f:selectItems value="#{facturaController.listaConsumos}"
+                                               var="_conumos" 
+                                               itemLabel="#{_conumos.nombre}" 
+                                               itemValue="#{_conumos.nombre}"/>   
+                                <p:ajax  update=":dialogos:creaServicio:selectConsumo" />
+                            </p:selectOneMenu>
+                            <br/>
+                            <br/>
+                            <p:commandButton process="@form" oncomplete="agregaServicio.hide();" actionListener="#{facturaController.guardaServicioNuevo()}" value="guardar" update="@form :tablas"  />
+                            <p:commandButton process="@form" oncomplete="agregaServicio.hide();" value="salir" update="@form" />
+                        </h:form>
+                    </p:dialog>
+                    <p:dialog dynamic="true" modal="true"  widgetVar="agregaSistemaServicio" resizable="false" header="Agregar Servicio" closable="false"    
+                              draggable="true"  >  
+                        <h:form id="creaSistemaServicio">
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <p:outputLabel style="font-size: 20px" value="Tipo de servicio"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel style="font-size: 20px" value="CostoUnitario:"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:outputLabel style="font-size: 20px" value="Unidad:"/>
+                                    </p:column>
+                                </p:row>     
+                                <p:row>
+                                    <p:column>
+                                        <p:selectOneMenu  id="selectTipoServicio" rendered="#{facturaController.listaServicios.size()>0}" value="#{facturaController.tipoServicioSeleccionado}"  filter="true" filterMatchMode="startsWith">
+                                            <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                            <f:selectItems value="#{facturaController.listaServicios}"
+                                                           var="_tipoServicio" 
+                                                           itemLabel="#{_tipoServicio.nombre}" 
+                                                           itemValue="#{_tipoServicio.nombre}"/>   
+                                            <p:ajax  update=":dialogos:creaSistemaServicio:selectTipoServicio" />
+                                        </p:selectOneMenu>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText  id="costoUnitario" value="#{facturaController.sistemaServicio.costoUnitario}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText   value="#{facturaController.sistemaServicio.unidad}"/>
+                                    </p:column>
+                                </p:row>
+                                <br/>
+                                <br/>
+                            </p:panelGrid>
+                            <p:commandButton process="@form" oncomplete="agregaSistemaServicio.hide();" actionListener="#{facturaController.guardaNuevoServicio()}" value="guardar" update="@form :tablas"  />
+                            <p:commandButton process="@form" oncomplete="agregaSistemaServicio.hide();" value="salir" update="@form" />
+                        </h:form>
+                    </p:dialog>
+                </h:form>
+
+
+                <p:panelGrid id="panel1" style="text-align:center;width: 90%;height: 300px">
+                    <p:row>
+                        <p:column style="width: 80%">
+                            <h:form id="KalturaFiltros">
+
+                            </h:form>
+                        </p:column>
+                        <p:column style="width:20%">
+                            <h:form>
+                                <center>
+                                    <p:panelGrid >
+                                        <p:row>
+                                            <p:column>
+                                                <h:commandLink immediate="true"  action="factura">
+                                                    <p:graphicImage library="img"  name="factura.png" />
+                                                </h:commandLink>
+                                            </p:column>
+                                            <p:column>
+                                                <h:commandLink immediate="true" action="home">
+                                                    <p:graphicImage library="img"  name="reporte.jpg" />
+                                                </h:commandLink>
+                                            </p:column>  
+                                        </p:row>
+                                    </p:panelGrid>
+                                </center>
+                            </h:form>
+                            <p:outputLabel style="font-size: 30px" value="#{appCredentials.usuarioReal.nombre}"/>
+                            <br/>
+                            <h:form id="logout">
+                                <p:commandButton value="Logout" action="#{loginController.logout()}" ajax="false" />
+                            </h:form>
+                            <h:form id="usuario">
+                                <p:commandButton id="pwchange" value="Cambiar PW" />
+                                <br/>
+                                <p:overlayPanel id="imgPanel2" for="pwchange" showEffect="blind" hideEffect="blind"
+                                                showEvent="mousedown" hideEvent="mousedown"  
+                                                styleClass="fondorestaurar">
+
+                                    <p:panelGrid  id="panelPassword" columns="3" style="clear: both; width: 250px;  font-size: 0.75em;">
+                                        <div >Cambiar Contraseña</div>
+                                        <p:password id="password_registro2" style="height: 10px;"  maxlength="30" required="true" feedback="true" inline="true" weakLabel="debil" goodLabel="buena" strongLabel="fuerte" promptLabel="muy debil" match="passwordConfirm2" validatorMessage="No coinciden" value="#{kalturaController.contrasena}"/>
+                                        <p:message for="password_registro2"/>
+                                        <div >#{msg_usuario.confirmar_pass}</div>
+                                        <p:password id="passwordConfirm2" style="height: 10px;" maxlength="30" required="true" feedback="true" inline="true" weakLabel="debil" goodLabel="buena" strongLabel="fuerte" promptLabel="muy debil"/>
+                                        <p:message for="passwordConfirm2"/>
+                                        <f:facet name="footer">
+                                            <p:commandButton value="Cambiar PW" style="height: 22px;" actionListener="#{kalturaController.cambiaContrasena(appCredentials.usuarioReal.username)}" update=":usuario:panelPassword"  />
+                                        </f:facet>
+                                    </p:panelGrid>
+                                </p:overlayPanel>
+                            </h:form>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <h:form id="tablas">
+                    <p:panelGrid style="text-align:center;width: 100%;background: white">
+                        <f:facet name="header" >
+                            <p:row>
+                                <p:column colspan="2"  >
+                                    <p:outputLabel style="font-size: 30px" value="Facturas"/>
+                                </p:column>
+                            </p:row>
+                        </f:facet>
+                        <p:row>
+                            <p:column colspan="2">
+                                <center>
+                                    <p:tabView style="width: 80%">
+                                        <p:tab title="Nueva Factura">
+                                            <p:panel rendered="#{not facturaController.crearServicio}">
+                                                <p:commandButton value="Crear Nuevo Servicio" rendered="#{not facturaController.crearServicio}" actionListener="#{facturaController.botonCrearNuevoServicio()}" update=":tablas" immediate="true"/>
+                                                <p:outputLabel rendered="#{not facturaController.crearServicio}" style="font-size: 25px;" value="Nombre:"/>
+                                                <p:inputText value="#{facturaController.sistemaFacturaGral.nombre}" rendered="#{not facturaController.crearServicio}" />
+                                                <p:commandButton  rendered="#{not facturaController.crearServicio}" value="Agregar Servicios" actionListener="#{facturaController.agregarServicio}" update=":tablas" immediate="true"/>
+                                                <p:dataTable  style="width: 100%" id="tablaFacturas" value="#{facturaController.nuevaListaFactura}" rows="10" var="_listaNuevaFactura" rendered="#{(facturaController.nuevaListaFactura.size()>0) and (not facturaController.crearServicio)}"
+                                                              paginator="true"
+                                                              paginatorPosition="bottom" 
+                                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                              rowsPerPageTemplate="5,10,15,30,50">
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Nombre Elemento Factura" />
+                                                        </f:facet>
+                                                        <p:inputText value="#{_listaNuevaFactura.sistemaServicio.nombre}" />
+                                                    </p:column>
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Servicio" />
+                                                        </f:facet>
+                                                        <p:selectOneMenu  id="selectTipoServicio" rendered="#{facturaController.listaServicios.size()>0}" value="#{facturaController.tipoServicioSeleccionado}"  filter="true" filterMatchMode="startsWith">
+                                                            <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                            <f:selectItems value="#{facturaController.listaServicio}"
+                                                                           var="_tipoServicio" 
+                                                                           itemLabel="#{_tipoServicio.nombre}" 
+                                                                           itemValue="#{_tipoServicio.nombre}"/>   
+                                                            <p:ajax  update=":dialogos:creaSistemaServicio:selectTipoServicio" />
+                                                        </p:selectOneMenu>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Subtotal" />
+                                                        </f:facet>
+                                                        <p:inputText value="#{_listaNuevaFactura.subTotal}" />
+                                                    </p:column>
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Fecha Inicio" />
+                                                        </f:facet>
+                                                        <p:calendar id="c1"    readonlyInput="true"  size="10"  maxdate="#{facturaController.hoy}">
+                                                            <p:ajax event="dateSelect"  />
+                                                        </p:calendar>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Fecha Final" />
+                                                        </f:facet>
+                                                        <p:calendar id="c2"    readonlyInput="true"  size="10" maxdate="#{facturaController.hoy}">
+                                                            <p:ajax event="dateSelect"  />
+                                                        </p:calendar>
+                                                    </p:column>
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Consumo" />
+                                                        </f:facet>
+                                                        <p:inputText value="#{_listaNuevaFactura.subTotal}" />
+                                                    </p:column>
+                                                    <p:column>
+                                                        <f:facet name="header" >
+                                                            <h:outputText value="Subtotal" />
+                                                        </f:facet>
+                                                        <p:inputText value="#{_listaNuevaFactura.subTotal}" />
+                                                    </p:column>
+                                                </p:dataTable>
+                                            </p:panel>
+                                            <p:panel rendered="#{facturaController.crearServicio}">
+                                                <p:commandButton value="Volver a creacion de factura" rendered="#{facturaController.crearServicio}" actionListener="#{facturaController.botonVolverFactura()}" update=":tablas" immediate="true"/>
+                                                <p:panelGrid>
+                                                    <p:row>
+                                                        <p:column>
+                                                            <p:outputLabel style="font-size: 25px;" value="Servicios" />asd
+                                                            <p:dataTable  style="width: 100%" id="tablasistemaServicios" value="#{facturaController.listaServicio}" rows="5" var="_listaServicio" rendered="#{facturaController.listaServicio.size()>0 }"
+                                                                          paginator="true"
+                                                                          paginatorPosition="bottom" 
+                                                                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                          rowsPerPageTemplate="5,10,15,30,50">
+                                                                <p:column>
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Nombre" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_listaServicio.nombre}"/>
+                                                                </p:column>
+                                                                <p:column>
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Costo" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_listaServicio.costoUnitario}"/>
+                                                                </p:column>
+                                                                <p:column>
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Unidad" />
+                                                                    </f:facet>
+                                                                    <p:outputLabel value="#{_listaServicio.unidad}"/>
+                                                                </p:column>
+                                                                <p:column>
+                                                                    <f:facet name="header" >
+                                                                        <h:outputText value="Eliminar" />
+                                                                    </f:facet>
+                                                                    <h:commandLink immediate="true" rendered="#{facturaController.renderedborrarServicio(_listaServicio)}" actionListener="#{facturaController.borraTipoServicio(_listaServicios)}">
+                                                                        <p:graphicImage library="img"  name="delete.png" />
+                                                                    </h:commandLink>
+                                                                </p:column>
+                                                            </p:dataTable>
+                                                        </p:column>
+                                                        <p:column>
+                                                            <p:panelGrid>
+                                                                <p:row>
+                                                                    <p:column>
+                                                                        <p:outputLabel style="font-size: 20px" value="Tipo de servicio"/>
+                                                                    </p:column>
+                                                                    <p:column>
+                                                                        <p:outputLabel style="font-size: 20px" value="CostoUnitario:"/>
+                                                                    </p:column>
+                                                                    <p:column>
+                                                                        <p:outputLabel style="font-size: 20px" value="Unidad:"/>
+                                                                    </p:column>
+                                                                </p:row>     
+                                                                <p:row>
+                                                                    <p:column>
+                                                                        <p:selectOneMenu  id="selectTipoServicio" rendered="#{facturaController.listaServicios.size()>0}" value="#{facturaController.tipoServicioSeleccionado}"  filter="true" filterMatchMode="startsWith">
+                                                                            <f:selectItem  itemValue="" itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                                                            <f:selectItems value="#{facturaController.listaServicios}"
+                                                                                           var="_tipoServicio" 
+                                                                                           itemLabel="#{_tipoServicio.nombre}" 
+                                                                                           itemValue="#{_tipoServicio.nombre}"/>   
+                                                                            <p:ajax  update=":dialogos:creaSistemaServicio:selectTipoServicio" />
+                                                                        </p:selectOneMenu>
+                                                                    </p:column>
+                                                                    <p:column>
+                                                                        <p:inputText  id="costoUnitario" value="#{facturaController.sistemaServicio.costoUnitario}"/>
+                                                                    </p:column>
+                                                                    <p:column>
+                                                                        <p:inputText   value="#{facturaController.sistemaServicio.unidad}"/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                                <br/>
+                                                                <br/>
+                                                            </p:panelGrid>
+                                                        </p:column>
+                                                    </p:row>
+                                                </p:panelGrid>
+                                            </p:panel>
+                                        </p:tab>
+                                        <p:tab title="Ver Facturas">
+                                            <p:accordionPanel value="#{facturaController.listaFacturas}" var="_listaFacturasGral" activeIndex="-1">
+                                                <p:tab title="#{_listaFacturasGral.nombre}">
+                                                    <p:dataTable  style="width: 100%"  value="#{_listaFacturasGral.listaFacturas}" rows="10" var="_listaNuevaFacturaGralSelect" rendered="#{_listaFacturasGral.listaFacturas.size()>0}"
+                                                                  paginator="true" 
+                                                                  paginatorPosition="bottom" 
+                                                                  paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                                                  rowsPerPageTemplate="5,10,15,30,50">
+                                                        <p:column>
+                                                            <f:facet name="header" >
+                                                                <h:outputText value="Nombre Elemento Factura" />
+                                                            </f:facet>
+                                                            <p:outputLabel value="#{_listaNuevaFacturaGralSelect.sistemaServicio.nombre}" />
+                                                        </p:column>
+                                                        <p:column>
+                                                            <f:facet name="header" >
+                                                                <h:outputText value="Fecha inicio" />
+                                                            </f:facet>
+                                                            <p:outputLabel value="#{_listaNuevaFacturaGralSelect.fechaInicio}" />
+                                                        </p:column>
+                                                        <p:column>
+                                                            <f:facet name="header" >
+                                                                <h:outputText value="Fecha fin" />
+                                                            </f:facet>
+                                                            <p:outputLabel value="#{_listaNuevaFacturaGralSelect.fechaFin}" />
+                                                        </p:column>
+                                                        <p:column>
+                                                            <f:facet name="header" >
+                                                                <h:outputText value="Subtotal" />
+                                                            </f:facet>
+                                                            <p:outputLabel value="#{_listaNuevaFacturaGralSelect.subTotal}" />
+                                                        </p:column>
+                                                    </p:dataTable>
+                                                </p:tab>
+                                            </p:accordionPanel>
+                                        </p:tab>
+                                        <p:tab title="Ver Reportes">
+
+                                        </p:tab>
+                                    </p:tabView>
+                                </center>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background: white">
+                                <p:outputLabel style="font-size: 25px" value="Tipo Consumo"/>
+                                <p:dataTable  style="width: 100%" id="tablaConsumos" value="#{facturaController.listaConsumos}" rows="5" var="_listaConsumos" rendered="#{facturaController.listaConsumos.size()>0 }"
+                                              paginator="true"
+                                              paginatorPosition="bottom" 
+                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                              rowsPerPageTemplate="5,10,15,30,50">
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Nombre" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaConsumos.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Eliminar" />
+                                        </f:facet>
+                                        <h:commandLink immediate="true" rendered="#{facturaController.renderedborrarConsumo(_listaConsumos)}" actionListener="#{facturaController.borraConsumo(_listaConsumos)}">
+                                            <p:graphicImage library="img"  name="delete.png" />
+                                        </h:commandLink>
+                                    </p:column>
+
+                                </p:dataTable>
+                                <h:commandLink immediate="true"  onclick="agregaConsumo.show();" >
+                                    <p:ajax update=":dialogos:creaConsumo" />
+                                    Agregar Consumo
+                                    <p:graphicImage library="img"  name="add.jpg" />
+                                </h:commandLink>
+                            </p:column>
+                            <p:column style="background: white">
+                                <p:outputLabel style="font-size: 25px;" value="Tipo Servicio" />
+                                <p:dataTable  style="width: 100%" id="tablaServicios" value="#{facturaController.listaServicios}" rows="5" var="_listaServicios" rendered="#{facturaController.listaServicios.size()>0 }"
+                                              paginator="true"
+                                              paginatorPosition="bottom" 
+                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                              rowsPerPageTemplate="5,10,15,30,50">
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Nombre" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaServicios.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Provedor" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaServicios.provedor}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Consumo" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaServicios.tipoConsumo.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Eliminar" />
+                                        </f:facet>
+                                        <h:commandLink immediate="true" rendered="#{facturaController.renderedborrarTipoServicio(_listaServicios)}" actionListener="#{facturaController.borraTipoServicio(_listaServicios)}">
+                                            <p:graphicImage library="img"  name="delete.png" />
+                                        </h:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:commandLink immediate="true"  onclick="agregaServicio.show();">
+                                    <p:ajax update=":dialogos:creaServicio" />
+                                    Agregar Tipo Servicio
+                                    <p:graphicImage library="img"  name="add.jpg" />
+                                </h:commandLink>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column style="background: white">
+
+                                <h:commandLink immediate="true"  onclick="agregaSistemaServicio.show();">
+                                    <p:ajax update=":dialogos:creaServicio" />
+                                    Agregar Servicio
+                                    <p:graphicImage library="img"  name="add.jpg" />
+                                </h:commandLink>
+                                <p:message for=":dialogos:creaSistemaServicio:costoUnitario"/>
+                            </p:column>
+                            <p:column style="background: white">
+                                <p:outputLabel style="font-size: 25px;" value="Facturas" />
+                                <p:dataTable  style="width: 100%" id="tablasistemaFacturas" value="#{facturaController.listaFactura}" rows="5" var="_listaFactura" rendered="#{facturaController.listaFactura.size()>0 }"
+                                              paginator="true"
+                                              paginatorPosition="bottom" 
+                                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                              rowsPerPageTemplate="5,10,15,30,50">
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Fecha Inicio" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaFactura.fechaInicio}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Fecha Fin" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaFactura.fechaFin}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Subtotal" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaFactura.subTotal}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Servicio" />
+                                        </f:facet>
+                                        <p:outputLabel value="#{_listaFactura.sistemaServicio.sistemaServicio.nombre}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header" >
+                                            <h:outputText value="Eliminar" />
+                                        </f:facet>
+                                        <h:commandLink immediate="true"  actionListener="#{facturaController.borraTipoServicio(_listaServicios)}">
+                                            <p:graphicImage library="img"  name="delete.png" />
+                                        </h:commandLink>
+                                    </p:column>
+                                </p:dataTable>
+                                <h:commandLink immediate="true"  onclick="agregaSistemaServicio.show();">
+                                    <p:ajax update=":dialogos:creaServicio" />
+                                    Agregar Factura
+                                    <p:graphicImage library="img"  name="add.jpg" />
+                                </h:commandLink>
+                                <p:message for=":dialogos:creaSistemaServicio:costoUnitario"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </h:form>
+            </center>
+        </h:body>
+    </f:view>
+</html>

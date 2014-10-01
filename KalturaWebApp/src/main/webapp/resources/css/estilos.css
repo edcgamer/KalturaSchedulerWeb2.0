@@ -1,0 +1,377 @@
+@charset "UTF-8";
+/* CSS Document */
+body{
+        height:auto;
+	margin:0 auto;
+	background-color:#CCC;	
+}
+h1{
+	text-align: center;
+	color: #F2F2F2;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 16px;
+	font-weight: normal;
+
+
+}
+
+html{
+    height:auto;/* make sure it is at least as tall as the viewport */
+    position:relative
+}
+#contenedorGeneral{
+	width:100%;
+	height:auto;
+}
+#contenedorPrincipal{
+	width:1024px;
+        height:auto;
+	margin:0 auto;
+	
+}
+#contenido{
+	width:120%;
+	height:auto;
+	margin:-10%;
+        margin-top: auto;
+	background: #f3f4f2; /* Old browsers */
+	background: -moz-linear-gradient(top,  #f3f4f2 0%, #ffffff 66%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f4f2), color-stop(66%,#ffffff)); /* Chrome,Safari4+ */	
+	background: -webkit-linear-gradient(top,  #f3f4f2 0%,#ffffff 66%); /* Chrome10+,Safari5.1+ */	
+	background: -o-linear-gradient(top,  #f3f4f2 0%,#ffffff 66%); /* Opera 11.10+ */	
+	background: -ms-linear-gradient(top,  #f3f4f2 0%,#ffffff 66%); /* IE10+ */	
+	background: linear-gradient(to bottom,  #f3f4f2 0%,#ffffff 66%); /* W3C */	
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f4f2', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */	
+	box-shadow:5px 5px 5px #999999;
+	float:left;
+}
+
+#header{
+	width:100%;
+	height:40px;
+	background-color:#2B3990;	
+}
+.logoSC{
+	width:50%;
+	height:40px;
+	float:left;
+}
+.logoAzteca{
+	width:50%;
+	height:40px;
+	float:right;
+	text-align:right;
+	position:relative;
+}
+#contenido_ch{
+    margin: auto;
+    width: 94%;
+    height: auto;
+    margin-top: 45px;
+}
+#infoleft{
+	width:69%;
+	height:auto;
+	background-color:#FFFFFF;
+	border:1px solid #CCC;
+}
+.headerBlue{
+	width:100%;
+	height:40px;
+	float:left;
+	background: #2B3990; /* Old browsers */
+	background: -moz-linear-gradient(top,  #1c75bc 0%, #1e5799 99%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1c75bc), color-stop(99%,#1e5799)); /* Chrome,Safari4+ */	
+	background: -webkit-linear-gradient(top,  #1c75bc 0%,#1e5799 99%); /* Chrome10+,Safari5.1+ */	
+	background: -o-linear-gradient(top,  #1c75bc 0%,#1e5799 99%); /* Opera 11.10+ */	
+	background: -ms-linear-gradient(top,  #1c75bc 0%,#1e5799 99%); /* IE10+ */	
+	background: linear-gradient(to bottom,  #1c75bc 0%,#1e5799 99%); /* W3C */	
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1c75bc', endColorstr='#1e5799',GradientType=0 ); /* IE6-9 */
+}
+#contentinfo{
+	width:90%;
+	height:auto;
+	background-color:#FFFFFF;
+	margin:auto;
+        
+}
+#formularios{
+	width: 100%;
+        height: auto;
+    float: left;
+    margin-top: 20px;
+}
+.formleft{
+	width: 45%;
+	height:auto;
+	float: left;
+}
+
+.formright{
+	width: 45%;
+	height:auto;
+    float: right;
+}
+input{
+	width:100%;
+	height:25px;
+	border-radius:5px;
+	border:1px solid #B2B2B2;
+}
+label{
+	font-family:Arial, Helvetica, sans-serif;
+	color:#58595B;
+	font-size:12px;
+	font-weight:bold;
+}
+.form1{
+	width:40%;
+	float:left;
+}
+.form2{
+	width:40%;
+	float:right;
+}
+.form3{
+	width:40%;
+	float:left;
+	margin-top:20px;
+}
+
+
+.form7{
+	width:40%;
+	float:left;
+}
+
+.form8{
+	color: #FF8000;
+        font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+}
+.form4{
+	width:40%;
+	float:right;
+	margin-top:20px;
+}
+
+.form6{
+	width:40%;
+	float:right;
+}
+
+.form5{
+        margin: auto;
+        padding: 20px;
+}
+
+.contenedor-check{
+    margin-top: 10px;
+    width: 100%;
+    float: left;
+    margin: auto;
+    text-align: center;
+}
+
+.contenedor-fechas{
+    margin-top: 10px;
+    width: 100%;
+    float: left;
+    margin: auto;
+    text-align: center;
+}
+
+.contenedor-unitario{
+    margin-top: 10px;
+    width: 100%;
+    float: left;
+    margin: auto;
+    text-align: center;
+}
+
+.contenedor-fechas2{
+    margin-top: 0px;
+    width: 100%;
+    float: left;
+    margin: auto;
+    text-align: center;
+}
+
+
+/*Comienza btonera*/
+#contenidoBotonera{
+	width:100%;
+	float:left;
+	margin-top:30px;
+}
+#botonescontenedor{
+	width:70%;
+	height:25px;
+	margin:auto;
+}
+.contentbtn_left{
+	width:45%;
+	float:left;
+	text-align:center;
+}
+.contentbtn_right{
+	width:45%;
+	float:right;
+	text-align:center;
+}
+.btns{
+	width:100%;
+	height:25px;
+	border-radius:5px;
+	background-color:#FBB03B;
+	border:1px solid #C1272D;
+	color:#000000;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:normal;
+	background: -moz-linear-gradient(top,  #ffff00 0%, #fbb03b 35%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffff00), color-stop(35%,#fbb03b)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #ffff00 0%,#fbb03b 35%); /* IE10+ */
+	background: linear-gradient(to bottom,  #ffff00 0%,#fbb03b 35%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffff00', endColorstr='#fbb03b',GradientType=0 ); /* IE6-9 */
+
+}
+
+
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default { border: 1px solid #aca19d; background-color: #dfdbda; font-weight: normal; color: #555555; }
+
+.btns:hover, .btns:focus, .btns:active {
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.6), 0 0 1px rgba(0, 0, 0, 0);
+}
+
+
+/*termina btonera*/
+#Usuario{
+	width:29%;
+	height:260px;
+	float:right;
+	background-color:#FFFFFF;
+	border:1px solid #CCCCCC;
+	
+}
+#contenedornombreusuario{
+	width:100%;
+	height:auto;
+	float:left;
+	text-align:center;
+	margin-top:15px;
+}
+.etiquetaUsuario{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:24px;
+	font-weight:normal;
+	color:#939598;
+	
+}
+#content_user_btn{
+	width:100%;
+	height:auto;
+	float:left;
+	margin-top:20px;
+	
+}
+
+#content_user_mofulos{
+	width:100%;
+	height:auto;
+	float:left;
+	margin-top:20px;
+	
+}
+/*Comienza segunda parte*/
+#seccion_dos{
+	width:100%;
+	height:auto;
+	margin-top:30px;
+        margin-bottom:30px;
+	float:left;
+	border: 1px solid #CCC;
+}
+.bargray{
+	width:100%;
+	height:30px;
+	background-color:#D1D3D4;
+	float:left;	
+}
+#titleleft{
+	width:25%;
+	height:30px;
+	float:left;
+}
+h2{
+	text-align: center;
+	color: #414042;
+	font-family: Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	font-weight: normal;	
+}
+#titleright{
+	width:75%;
+	height:30px;
+	float:right;	
+}
+#content_seccion_dos{
+	width:100%;
+        height: auto;
+	float:left;
+	margin:auto;
+}
+#left_seccion_dos{
+	width:25%;
+	height:auto;
+	float:left;
+	border-right:solid 1px #CCC;
+}
+
+/*Inicia formulario 2*/
+#content_form_dos_A{
+	margin:auto;
+	width:100%;
+	margin-top:20px;
+	float:left;
+}
+#form_only{
+	width:80%;
+	margin:auto;
+}
+.styleselect{
+	width:100%;
+	height:30px;
+	font-family:arial;
+	font-size:12px;
+	background-color:#FFF;
+	border: 1px solid #CCC;
+	color:#58595B;
+	border-radius:5px;	
+}
+/*termina formulario*/
+#right_seccion_dos{
+	width:74%;
+	height:auto;
+	float:right;
+}
+#contenticons{
+	width:50%;
+	height:40px;
+	float:right;
+}
+.Icons{
+	width:32px;
+	height:32px;
+	float:right;
+	padding:3px;
+	margin-left:5px;
+}
+#ContenedorInformacion{
+	width:100%;
+	height:auto;
+	float:right;
+}

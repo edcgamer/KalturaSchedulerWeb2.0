@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+                        
+    
+    <security:http auto-config="true" use-expressions="true"> 
+        <security:intercept-url pattern="/objeto-aprendizaje/**" access="hasRole('Administrador','Profesor')" />
+        <security:intercept-url pattern="/cuenta-alumno/**" access="permitAll()" />
+        <security:intercept-url pattern="/repositorio/**" access="isAuthenticated()" />
+        <security:intercept-url pattern="/factura/**" access="hasRole('Administrador')" />
+        <security:intercept-url pattern="/recupera-pw/index.xhtml" access="permitAll()" />
+         <security:intercept-url pattern="/index.xhtml" access="isAuthenticated()" />
+        <security:form-login login-page="/login.xhtml" default-target-url="/index.xhtml" authentication-failure-url="/login.xhtml?denegado=true"/> 
+        <security:logout invalidate-session="true"/> 
+        <security:access-denied-handler error-page="/denegado.xhtml"/>
+        <security:session-management> 
+            <security:concurrency-control max-sessions="1" expired-url="/login.xhtml?faces-redirect=true"/>        
+        </security:session-management>
+    </security:http>
+    
+    <bean id="userDetailsService" class="com.marcosanta.controllers.UserDetailsServiceImpl"/>
+
+    <security:authentication-manager> 
+        <security:authentication-provider user-service-ref="userDetailsService">
+            <security:password-encoder hash="sha-256"/>
+        </security:authentication-provider>
+    </security:authentication-manager>
+</beans>

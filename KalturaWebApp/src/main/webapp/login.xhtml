@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+    </h:head>
+    <h:body>
+        <p:ajaxStatus onstart="statusDialog.show();"  oncomplete="statusDialog.hide();" >
+        </p:ajaxStatus>
+        <h:outputStylesheet library="css" name="StyleLogin.css"/>
+        <p:dialog modal="true" widgetVar="statusDialog" resizable="false" header=""   
+                  draggable="false" closable="false">  
+            <h:graphicImage library="img"  name="unam.gif"/>
+        </p:dialog>
+        <h:form prependId="false">
+            <div class="contenedorcentrar">
+                <div class="contenidoLogin">
+                    <div id="contenidoInterno">
+
+                        <div class="ContenedorlogoSC">
+                            <div class="logo"></div>
+                        </div>
+
+                        <div class="textocaptura">
+                            <b><h2><h:outputText styleClass="error" rendered="#{param['denegado']}" value="#{msgs.label_autenticacionFallida}" /></h2></b>
+                            <h1>Capture su nombre de usuario y contraseña</h1>
+                        </div>
+
+                        <div class="maincontent">
+                            <div class="loginform">
+                                <div id="form1">
+                                    <div id="formformat">
+                                        <label>Nombre de Usuario:</label>
+                                        <p:inputText  id="j_username" value="#{loginController.username}" required="true"   maxlength="25" />
+                                        <p:message for="j_username"/>
+                                    </div>
+                                </div>
+
+                                <div id="form2">
+                                    <div id="formformat">
+                                        <label>Contraseña</label>
+                                        <p:password id="j_password" value="#{loginController.password}" required="true"  />
+                                        <p:message for="j_password"/>
+                                    </div>
+                                </div>
+
+                                <div id="button">
+                                    <div id="formformat">
+                                        <p:commandButton id="login" type="submit" styleClass="btns" action="#{loginController.login()}" value="login" ajax="false"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="Contentllavemaestrainfo">
+                            <div class="infollave">
+                                <p:commandLink rendered="true" id="recuperar" action="recuperacion"  immediate="true" style="margin-right:20px;" ajax="false">
+                                    <h:outputText value="#{msgs.recuperar_contrasena}" styleClass="link" />
+                                </p:commandLink>  
+                                <br/>
+                                <p:commandLink rendered="false" id="cuenta-alumno" action="cuenta-alumno"  immediate="true" style="margin-right:20px;" ajax="false">
+                                    <h:outputText value="Crea tu cuenta" /> 
+                                </p:commandLink>  
+                                
+                            </div>
+                        </div>
+                        <div class="footer">
+                            <div class="logoAzteca"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>
